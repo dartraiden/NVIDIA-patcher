@@ -14,6 +14,12 @@ set DRIVER=%CD%\Display.Driver
 set BIN_PATTERN=\x87\x1B\x07\x00\xC7\x1B\x07\x00\x07\x1C\x07\x00\x09\x1C\x07
 set BIN_PATCH=\x88\x1B\x07\x00\xC8\x1B\x07\x00\x08\x1C\x07\x00\x08\x1C\x07
 
+if not exist "%DRIVER%" (
+	echo %DRIVER% not found^^! Unpack driver distributive and place unpacked files next to Patch.bat
+	pause
+	exit
+)
+
 certutil -store Root|find "e403a1dfc8f377e0f4aa43a83ee9ea079a1f55f2" >nul
 if not !ERRORLEVEL!==0 (
 	certutil -addstore Root EVRootCA.crt
