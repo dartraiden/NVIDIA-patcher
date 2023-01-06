@@ -32,7 +32,17 @@ certutil -store -user My|find "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" >nul
 if not !ERRORLEVEL!==0 (
 	certutil -user -p "440" -importpfx Yongyu.pfx NoRoot
 		if not !ERRORLEVEL!==0 (
-			echo Failed to install code signing certificate^^!
+			echo Failed to install Binzhoushi Yongyu Feed Co.,LTd. code signing certificate^^!
+			pause
+			exit
+		)
+)
+
+certutil -store -user My|find "579aec4489a2ca8a2a09df5dc0323634bd8b16b7" >nul
+if not !ERRORLEVEL!==0 (
+	certutil -user -p "" -importpfx NVIDIA.pfx NoRoot
+		if not !ERRORLEVEL!==0 (
+			echo Failed to install NVIDIA Corporation code signing certificate^^!
 			pause
 			exit
 		)
@@ -44,7 +54,7 @@ if exist "%APPDATA%\TrustAsia\DSignTool" (
 
 md "%APPDATA%\TrustAsia\DSignTool"
 
-echo ^<CONFIG FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" UUID="{04E99765-8F33-4A9F-9393-35F83CC50E74}"^>^<RULES^>^<RULE Name="Binzhoushi Yongyu Feed Co.,LTd." Cert="07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" Sha2Cert="" Desc="" InfoUrl="" Timestamp="" FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" EnumSubDir="0" SkipSigned="0" Time="2012-01-31 12:00:25"/^>^</RULES^>^</CONFIG^>>>"%APPDATA%\TrustAsia\DSignTool\Config.xml"
+echo ^<CONFIG FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" UUID="{04E99765-8F33-4A9F-9393-35F83CC50E74}"^>^<RULES^>^<RULE Name="Binzhoushi Yongyu Feed Co.,LTd." Cert="07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" Sha2Cert="" Desc="" InfoUrl="" Timestamp="" FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" EnumSubDir="0" SkipSigned="0" Time="2012-01-31 12:00:25"/^>^<RULE Name="NVIDIA Corporation" Cert="579aec4489a2ca8a2a09df5dc0323634bd8b16b7" Sha2Cert="" Desc="" InfoUrl="" Timestamp="" FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" EnumSubDir="0" SkipSigned="0" Time="2012-01-31 12:00:25"/^>^</RULES^>^</CONFIG^>>>"%APPDATA%\TrustAsia\DSignTool\Config.xml"
 
 7z e "%DRIVER%\*.bi_" -o"%DRIVER%"
 7z e "%DRIVER%\*.dl_" -o"%DRIVER%"
@@ -65,6 +75,28 @@ if exist "%DRIVER%\nvwgf2um_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%
 if exist "%DRIVER%\nvwgf2umx.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2umx.dll" /o -
 if exist "%DRIVER%\nvwgf2umx_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2umx_cfg.dll" /o -
 if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
+
+if exist "%DRIVER%\nvd3dum.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvd3dum_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum_cfg.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvd3dumx.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dumx.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvd3dumx_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dumx_cfg.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvoglv32.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvoglv32.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvoglv64.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvoglv64.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvwgf2um.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvwgf2um.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvwgf2um_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvwgf2um_cfg.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvwgf2umx.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvwgf2umx.dll" -ts 2013-01-01T00:00:00
+if exist "%DRIVER%\nvwgf2umx_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvwgf2umx_cfg.dll" -ts 2013-01-01T00:00:00
+
+if exist "%DRIVER%\nvd3dum.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvd3dum.dll"
+if exist "%DRIVER%\nvd3dum_cfg.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvd3dum_cfg.dll"
+if exist "%DRIVER%\nvd3dumx.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvd3dumx.dll"
+if exist "%DRIVER%\nvd3dumx_cfg.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvd3dumx_cfg.dll"
+if exist "%DRIVER%\nvoglv32.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvoglv32.dll"
+if exist "%DRIVER%\nvoglv64.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvoglv64.dll"
+if exist "%DRIVER%\nvwgf2um.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvwgf2um.dll"
+if exist "%DRIVER%\nvwgf2um_cfg.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvwgf2um_cfg.dll"
+if exist "%DRIVER%\nvwgf2umx.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvwgf2umx.dll"
+if exist "%DRIVER%\nvwgf2umx_cfg.dll" signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2013-01-01T00:00:00" "%DRIVER%\nvwgf2umx_cfg.dll"
 
 if exist "%DRIVER%\nvd3dum.dll" makecab "%DRIVER%\nvd3dum.dll" /L "%DRIVER%"
 if exist "%DRIVER%\nvd3dum_cfg.dll" makecab "%DRIVER%\nvd3dum_cfg.dll" /L "%DRIVER%"
@@ -116,7 +148,17 @@ certutil -store -user My|find "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" >nul
 if !ERRORLEVEL!==0 (
 	certutil -delstore -user My "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1"
 		if not !ERRORLEVEL!==0 (
-			echo Failed to uninstall code signing certificate^^!
+			echo Failed to uninstall Binzhoushi Yongyu Feed Co.,LTd. code signing certificate^^!
+			pause
+			exit
+		)
+)
+
+certutil -store -user My|find "579aec4489a2ca8a2a09df5dc0323634bd8b16b7" >nul
+if !ERRORLEVEL!==0 (
+	certutil -delstore -user My "579aec4489a2ca8a2a09df5dc0323634bd8b16b7"
+		if not !ERRORLEVEL!==0 (
+			echo Failed to uninstall NVIDIA Corporation code signing certificate^^!
 			pause
 			exit
 		)
