@@ -20,12 +20,8 @@ if not exist "%DRIVER%" (
 	exit
 )
 
-certutil -store Root|find "e403a1dfc8f377e0f4aa43a83ee9ea079a1f55f2" >nul
-if not !ERRORLEVEL!==0 (
-	certutil -addstore Root EVRootCA.crt
-		if not !ERRORLEVEL!==0 (
-			echo Failed to install root certificate^^! Download it from pki.jemmylovejenny.tk and install manually into Trusted Root Certification Authorities.
-		)
+if exist "%APPDATA%\TrustAsia\DSignTool" (
+	rd "%APPDATA%\TrustAsia\DSignTool" /s /q || echo Failed to delete old CSignTool/DSignTool config^^! Make sure you have write access to the %APPDATA%\TrustAsia\DSignTool directory. && pause && exit
 )
 
 certutil -store -user My|find "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" >nul
@@ -46,10 +42,6 @@ if not !ERRORLEVEL!==0 (
 			pause
 			exit
 		)
-)
-
-if exist "%APPDATA%\TrustAsia\DSignTool" (
-	rd "%APPDATA%\TrustAsia\DSignTool" /s /q || echo Failed to delete old CSignTool/DSignTool config^^! Make sure you have write access to the %APPDATA%\TrustAsia\DSignTool directory. && goto CLEAN_CERT
 )
 
 md "%APPDATA%\TrustAsia\DSignTool"
@@ -116,34 +108,41 @@ inf2cat /driver:"%DRIVER%" /os:10_X64
 if not %ERRORLEVEL%==0 (
 	echo Failed to generate catalog file^^!
 	pause
-	goto CLEAN_FILES
+	goto CLEAN
 )
 
 if not exist "%DRIVER%\nv_disp.cat" (
 	echo nv_disp.cat is not exist^^!
-	goto CLEAN_FILES
+	goto CLEAN
 )
 
 CSignTool sign /r "Binzhoushi Yongyu Feed Co.,LTd." /f "%DRIVER%\nv_disp.cat" /ac -ts 2015-01-01T00:00:00
 if not %ERRORLEVEL%==0 (
 	echo Failed to sign catalog file^^!
 	pause
-	goto CLEAN_FILES
+	goto CLEAN
 )
 
 signtool timestamp /t "http://tsa.pki.jemmylovejenny.tk/SHA1/2015-01-01T00:00:00" "%DRIVER%\nv_disp.cat"
 if not %ERRORLEVEL%==0 (
 	echo Failed to timestamp catalog file^^!
 	pause
-	goto CLEAN_FILES
+	goto CLEAN
 )
 
-:CLEAN_FILES
+certutil -store Root|find "e403a1dfc8f377e0f4aa43a83ee9ea079a1f55f2" >nul
+if not !ERRORLEVEL!==0 (
+	certutil -addstore Root EVRootCA.crt
+		if not !ERRORLEVEL!==0 (
+			echo Failed to install root certificate^^! Download it from pki.jemmylovejenny.tk and install manually into Trusted Root Certification Authorities.
+		)
+)
+
+:CLEAN
 rd "%PROGRAMDATA%\JREPL" /s /q
 rd "%APPDATA%\TrustAsia" /s /q
 rd "%TEMP%\WST" /s /q
 
-:CLEAN_CERT
 certutil -store -user My|find "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" >nul
 if !ERRORLEVEL!==0 (
 	certutil -delstore -user My "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1"
