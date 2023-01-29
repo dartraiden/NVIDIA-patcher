@@ -19,6 +19,11 @@ The result of the patch will be a signed `/Display.Driver/nv_disp.cat` file. Che
 * P104-101 → GTX 1080
 * P106-090 → GTX 1060 3GB
 * P106-100 → GTX 1060 6GB
+* CMP 30HX → GTX 1660 SUPER
+* CMP 40HX → RTX 2070
+* CMP 50HX → RTX 2080 Ti 
+* CMP 70HX → RTX 3070 Ti
+* CMP 90HX → RTX 3080
 
 Result:
 

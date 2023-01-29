@@ -11,8 +11,10 @@ IF %ERRORLEVEL% neq 0 (
 @cd /d "%~DP0"
 
 set DRIVER=%CD%\Display.Driver
-set BIN_PATTERN=\x07\x1B\x07\x00\x87\x1B\x07\x00\xC7\x1B\x07\x00\x07\x1C\x07\x00\x09\x1C\x07
-set BIN_PATCH=\x08\x1B\x07\x00\x88\x1B\x07\x00\xC8\x1B\x07\x00\x08\x1C\x07\x00\x08\x1C\x07
+set BIN_PATTERN_P=\x07\x1B\x07\x00\x87\x1B\x07\x00\xC7\x1B\x07\x00\x07\x1C\x07\x00\x09\x1C\x07
+set BIN_PATCH_P=\x08\x1B\x07\x00\x88\x1B\x07\x00\xC8\x1B\x07\x00\x08\x1C\x07\x00\x08\x1C\x07
+set BIN_PATTERN_CMP=\x09\x1E\x07\x00\x49\x1E\x07\x00\xBC\x1E\x07\x00\xFC\x1E\x07\x00\x0B\x1F\x07\x00\x81\x20\x07\x00\x82\x20\x07\x00\x83\x20\x07\x00\xC2\x20\x07\x00\x89\x21\x07\x00\x0D\x22\x07\x00\x4D\x22\x07\x00\x8A\x24\x07
+set BIN_PATCH_CMP=\x08\x1E\x07\x00\x49\x1E\x07\x00\xBC\x1E\x07\x00\xFC\x1E\x07\x00\x08\x1F\x07\x00\x81\x20\x07\x00\x82\x20\x07\x00\x83\x20\x07\x00\xC2\x20\x07\x00\x88\x21\x07\x00\x08\x22\x07\x00\x4D\x22\x07\x00\x88\x24\x07
 
 if not exist "%DRIVER%" (
 	echo %DRIVER% not found^^! Unpack driver distributive and place unpacked files next to Patch.bat
@@ -56,17 +58,29 @@ echo ^<CONFIG FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" 
 
 if exist "%DRIVER%\nviccadvancedcoloridentity.ic" ren "%DRIVER%\nviccadvancedcoloridentity.ic" nviccadvancedcoloridentity.icm
 
-if exist "%DRIVER%\nvd3dum.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvd3dum.dll" /o -
-if exist "%DRIVER%\nvd3dum_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvd3dum_cfg.dll" /o -
-if exist "%DRIVER%\nvd3dumx.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvd3dumx.dll" /o -
-if exist "%DRIVER%\nvd3dumx_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvd3dumx_cfg.dll" /o -
-if exist "%DRIVER%\nvoglv32.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvoglv32.dll" /o -
-if exist "%DRIVER%\nvoglv64.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvoglv64.dll" /o -
-if exist "%DRIVER%\nvwgf2um.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2um.dll" /o -
-if exist "%DRIVER%\nvwgf2um_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2um_cfg.dll" /o -
-if exist "%DRIVER%\nvwgf2umx.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2umx.dll" /o -
-if exist "%DRIVER%\nvwgf2umx_cfg.dll" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvwgf2umx_cfg.dll" /o -
-if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN%" "%BIN_PATCH%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
+if exist "%DRIVER%\nvd3dum.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dum.dll" /o -
+if exist "%DRIVER%\nvd3dum_cfg.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dum_cfg.dll" /o -
+if exist "%DRIVER%\nvd3dumx.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dumx.dll" /o -
+if exist "%DRIVER%\nvd3dumx_cfg.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dumx_cfg.dll" /o -
+if exist "%DRIVER%\nvoglv32.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvoglv32.dll" /o -
+if exist "%DRIVER%\nvoglv64.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvoglv64.dll" /o -
+if exist "%DRIVER%\nvwgf2um.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvwgf2um.dll" /o -
+if exist "%DRIVER%\nvwgf2um_cfg.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvwgf2um_cfg.dll" /o -
+if exist "%DRIVER%\nvwgf2umx.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvwgf2umx.dll" /o -
+if exist "%DRIVER%\nvwgf2umx_cfg.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvwgf2umx_cfg.dll" /o -
+if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
+
+if exist "%DRIVER%\nvd3dum.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvd3dum.dll" /o -
+if exist "%DRIVER%\nvd3dum_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvd3dum_cfg.dll" /o -
+if exist "%DRIVER%\nvd3dumx.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvd3dumx.dll" /o -
+if exist "%DRIVER%\nvd3dumx_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvd3dumx_cfg.dll" /o -
+if exist "%DRIVER%\nvoglv32.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvoglv32.dll" /o -
+if exist "%DRIVER%\nvoglv64.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvoglv64.dll" /o -
+if exist "%DRIVER%\nvwgf2um.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2um.dll" /o -
+if exist "%DRIVER%\nvwgf2um_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2um_cfg.dll" /o -
+if exist "%DRIVER%\nvwgf2umx.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2umx.dll" /o -
+if exist "%DRIVER%\nvwgf2umx_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2umx_cfg.dll" /o -
+if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
 
 if exist "%DRIVER%\nvd3dum.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum.dll" -ts 2013-01-01T00:00:00
 if exist "%DRIVER%\nvd3dum_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum_cfg.dll" -ts 2013-01-01T00:00:00
