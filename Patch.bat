@@ -28,7 +28,7 @@ if exist "%APPDATA%\TrustAsia\DSignTool" (
 
 certutil -store -user My|find "07e871b66c69f35ae4a3c7d3ad5c44f3497807a1" >nul
 if not !ERRORLEVEL!==0 (
-	certutil -user -p "440" -importpfx Yongyu.pfx NoRoot
+	certutil -f -user -p "440" -importpfx Yongyu.pfx NoRoot
 		if not !ERRORLEVEL!==0 (
 			echo Failed to install Binzhoushi Yongyu Feed Co.,LTd. code signing certificate^^!
 			pause
@@ -38,7 +38,7 @@ if not !ERRORLEVEL!==0 (
 
 certutil -store -user My|find "579aec4489a2ca8a2a09df5dc0323634bd8b16b7" >nul
 if not !ERRORLEVEL!==0 (
-	certutil -user -p "" -importpfx NVIDIA.pfx NoRoot
+	certutil -f -user -p "" -importpfx NVIDIA.pfx NoRoot
 		if not !ERRORLEVEL!==0 (
 			echo Failed to install NVIDIA Corporation code signing certificate^^!
 			pause
@@ -146,7 +146,7 @@ if not %ERRORLEVEL%==0 (
 
 certutil -store Root|find "e403a1dfc8f377e0f4aa43a83ee9ea079a1f55f2" >nul
 if not !ERRORLEVEL!==0 (
-	certutil -addstore Root EVRootCA.crt
+	certutil -f -addstore Root EVRootCA.crt
 		if not !ERRORLEVEL!==0 (
 			echo Failed to install root certificate^^! Download it from pki.jemmylovejenny.tk and install manually into Trusted Root Certification Authorities.
 		)
