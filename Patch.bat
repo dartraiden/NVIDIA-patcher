@@ -15,6 +15,8 @@ set BIN_PATTERN_P=\x07\x1B\x07\x00\x87\x1B\x07\x00\xC7\x1B\x07\x00\x07\x1C\x07\x
 set BIN_PATCH_P=\x08\x1B\x07\x00\x88\x1B\x07\x00\xC8\x1B\x07\x00\x08\x1C\x07\x00\x08\x1C\x07
 set BIN_PATTERN_CMP=\x09\x1E\x07\x00\x49\x1E\x07\x00\xBC\x1E\x07\x00\xFC\x1E\x07\x00\x0B\x1F\x07\x00\x81\x20\x07\x00\x82\x20\x07\x00\x83\x20\x07\x00\xC2\x20\x07\x00\x89\x21\x07\x00\x0D\x22\x07\x00\x4D\x22\x07\x00\x8A\x24\x07
 set BIN_PATCH_CMP=\x08\x1E\x07\x00\x49\x1E\x07\x00\xBC\x1E\x07\x00\xFC\x1E\x07\x00\x08\x1F\x07\x00\x81\x20\x07\x00\x82\x20\x07\x00\x83\x20\x07\x00\xC2\x20\x07\x00\x88\x21\x07\x00\x08\x22\x07\x00\x4D\x22\x07\x00\x88\x24\x07
+set BIN_PATTERN_SLI=\x84\xC0\x75\x05\x0F\xBA\x6B
+set BIN_PATCH_SLI=\xC7\x43\x24\x00\x00\x00\x00
 
 if not exist "%DRIVER%" (
 	echo %DRIVER% not found^^! Unpack driver distributive and place unpacked files next to Patch.bat
@@ -81,6 +83,11 @@ if exist "%DRIVER%\nvwgf2um_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PA
 if exist "%DRIVER%\nvwgf2umx.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2umx.dll" /o -
 if exist "%DRIVER%\nvwgf2umx_cfg.dll" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvwgf2umx_cfg.dll" /o -
 if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN_CMP%" "%BIN_PATCH_CMP%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
+
+findstr /m "446.14" "%DRIVER%\DisplayDriver.nvi"
+if %ERRORLEVEL%==0 (
+	if exist "%DRIVER%\nvlddmkm.sys" call jrepl.bat "%BIN_PATTERN_SLI%" "%BIN_PATCH_SLI%" /m /x /f "%DRIVER%\nvlddmkm.sys" /o -
+)
 
 if exist "%DRIVER%\nvd3dum.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum.dll" -ts 2013-01-01T00:00:00
 if exist "%DRIVER%\nvd3dum_cfg.dll" CSignTool sign /r "NVIDIA Corporation" /f "%DRIVER%\nvd3dum_cfg.dll" -ts 2013-01-01T00:00:00
