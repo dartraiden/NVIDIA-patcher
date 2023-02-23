@@ -58,8 +58,6 @@ echo ^<CONFIG FileExts="*.exe;*.dll;*.ocx;*.sys;*.cat;*.cab;*.msi;*.mui;*.bin;" 
 7z e "%DRIVER%\*.ic_" -o"%DRIVER%"
 7z e "%DRIVER%\*.sy_" -o"%DRIVER%"
 
-if exist "%DRIVER%\nviccadvancedcoloridentity.ic" ren "%DRIVER%\nviccadvancedcoloridentity.ic" nviccadvancedcoloridentity.icm
-
 if exist "%DRIVER%\nvd3dum.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dum.dll" /o -
 if exist "%DRIVER%\nvd3dum_cfg.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dum_cfg.dll" /o -
 if exist "%DRIVER%\nvd3dumx.dll" call jrepl.bat "%BIN_PATTERN_P%" "%BIN_PATCH_P%" /m /x /f "%DRIVER%\nvd3dumx.dll" /o -
