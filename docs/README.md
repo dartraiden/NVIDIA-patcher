@@ -1,4 +1,4 @@
-# NVIDIA patcher
+# NVIDIA patched drivers
 
 Adds 3D acceleration support for P106-090/P106-100/P104-100/P104-101 mining cards.
 
