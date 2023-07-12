@@ -13,10 +13,6 @@ Adds 3D acceleration support for P106-090/P106-100/P104-100/P104-101 mining card
 
 ![Certificate installation](/docs/Certificate_installation.gif)
 
-Check the `/Display.Driver/nv_disp.cat` file signature in its properties, it should be valid:
-
-![Valid signature](/docs/signature.jpg)
-
 6. Install the driver manually. Go to Windows Device Manager → Right-click on device → Properties → Driver → Update Driver → Browse my computer for drivers → Let me pick from a list of available drivers on my computer → Show All Devices → Have Disk... → Browse... → Choose `nv_disp.cat` (inside Display.Driver folder)  → Untick "Show compatible hardware" → Choose appropriate 3D video card model. Do not choose mining card models, choose 3D cards!
 * P102-100 → GTX 1080 Ti
 * P104-100 → GTX 1070
