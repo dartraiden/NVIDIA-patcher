@@ -16,17 +16,7 @@ Adds 3D acceleration support for P106-090/P106-100/P104-100/P104-101 mining card
 
 ![Certificate installation](/docs/Certificate_installation.gif)
 
-8. Install the driver manually. Go to Windows Device Manager → Right-click on device → Properties → Driver → Update Driver → Browse my computer for drivers → Let me pick from a list of available drivers on my computer → Show All Devices → Have Disk... → Browse... → Choose `nv_disp.cat` (inside Display.Driver folder)  → Untick "Show compatible hardware" → Choose appropriate 3D video card model. Do not choose mining card models, choose 3D cards!
-* P102-100 → GTX 1080 Ti
-* P104-100 → GTX 1070
-* P104-101 → GTX 1080
-* P106-090 → GTX 1060 3GB
-* P106-100 → GTX 1060 6GB
-* CMP 30HX → GTX 1660 SUPER
-* CMP 40HX → RTX 2070
-* CMP 50HX → RTX 2080 Ti
-* CMP 70HX → RTX 3070 Ti
-* CMP 90HX → RTX 3080
+8. Run Setup.exe
 
 Result:
 
