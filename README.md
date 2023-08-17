@@ -1,6 +1,6 @@
 # NVIDIA patched drivers
 
-Adds 3D acceleration support for P106-090/P106-100/P104-100/P104-101 mining cards.
+Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30X / CMP 40X / CMP 50X / CMP 70X / CMP 90X mining cards.
 
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
