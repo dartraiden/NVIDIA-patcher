@@ -6,6 +6,9 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
 
 1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases).
+
+**Attention: Do not use NVENC- prefixed package if your mining card does not have hardware NVENC support. In this case driver will cause problems (crashes) in applications using NVENC.**
+
 2. Download the official driver package from the NVIDIA website.
 3. Download [Display Driver Uninstaller](https://www.wagnardsoft.com/display-driver-uninstaller-ddu-) (DDU).
 4. Unpack the official driver package with 7-Zip / WinRAR / etc.
