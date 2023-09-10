@@ -22,6 +22,14 @@ Result:
 
 Now you can plug the network cable / enable Wi-Fi back.
 
+8.1. In Windows 10 open the `NVIDIA control panel` → `3D settings` → `Manage 3D settings` and set "High-performance NVIDIA processor" as preferred graphics processor:
+
+![Screenshot of NVIDIA control panel](NVIDIA%20Manage%203D%20Settings.jpg) ![Screenshot of "High-performance NVIDIA processor" option](High%20Performance%20NVIDIA%20Processor.jpg)
+
+8.2. In Windows 11 open `Settings` → `System` → `Display` → `Graphics` → `Change default graphic settings` and set mining card as the default high-performance graphic adapter:
+
+![Screenshot of "Default High-performance GPU" option](Windows%20Default%20High-performance%20GPU.png)
+
 ## SLI hack
 It is possible to pair together different GPUs of similar generation/architecture to work together in SLI (Note: Mixing different VRAM sizes may cause some instability or stop SLI from functioning properly). It can also enable SLI on some non SLI/Crossfire compatible motherboards, making it a replacement for the now discontinued HyperSLI program (Note: The SLI support on non multi-GPU motherboards is not guaranteed).
 
