@@ -34,3 +34,12 @@ NVIDIA_DEV.**118**5.098A.10DE = "NVIDIA GeForce GTX 660"
 NVIDIA_DEV.**118**5.106F.10DE = "NVIDIA GeForce GTX 760"
 
 Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
+
+## Unlocking full x16 PCI-E lines on the CMP-cards
+TL;DR: You need to solder the missing elements near the PCI-E slot.
+
+English:
+https://www.youtube.com/watch?v=AlLid4uGxpw
+
+Russian:
+https://www.youtube.com/watch?v=twRIYq2p-38
