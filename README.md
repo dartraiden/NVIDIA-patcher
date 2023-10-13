@@ -51,3 +51,23 @@ https://www.youtube.com/watch?v=AlLid4uGxpw
 
 Russian:
 https://www.youtube.com/watch?v=twRIYq2p-38
+
+## Shadowplay, also known as the Nvidia overlay (on cards that support NVENC),
+In order to use the ShadowPlay overlay to record gameplay, use the resource monitor, or stream, you must follow these steps:
+
+Requirements
+* A graphics card that supports NVENC.
+* Download and install the latest version of the patch.
+* Download and install GeForce Experience (no need to log in).
+
+Steps
+1. Go to the installation path of Nvidia GeForce Experience, usually located at: `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`.
+2. Once there, locate the executable named `NVIDIA Share.exe` and create a shortcut on your desktop.
+3. Right-click on the created desktop shortcut, go to properties, and in the `Target` field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click apply and ok.
+
+![image](https://github.com/dartraiden/NVIDIA-patcher/assets/19232315/1c9ce99b-ae8e-4694-8064-aa023455d2fc)
+
+4. Now double-click on the shortcut, and you'll notice that nothing appears to happen. However, when you press Alt + Z, the Nvidia ShadowPlay overlay will open.
+Note: You do not need to double-click the shortcut again; this is a one-time setup. From now on, you can always open Shadowplay by pressing Alt + Z.
+
+![image](https://github.com/dartraiden/NVIDIA-patcher/assets/19232315/e64dfcb1-9300-471c-89fa-7d3b768919c6)
