@@ -6,7 +6,16 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 
 1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases).
 
-**Attention: Do not use NVENC- prefixed package if your mining card does not have hardware NVENC support. In this case driver will cause problems (crashes) in applications using NVENC.**
+* 537.58 — if you want to use mining card in pair with any AMD/Intel graphic or any [supported NVIDIA discrete graphic](https://www.nvidia.com/download/driverResults.aspx/212701/).
+* 516.61 - if you want to use [RTX 3080 Ti 20 GB](https://videocardz.com/newz/unreleased-geforce-rtx-3080-ti-with-20gb-memory-shows-up-with-overclocking-support).
+* 472.12 — if you want to use mining card in pair with old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
+* 446.14 — if you want to use mining card (only PXXX, not CMP-cards) in SLI setup (see [SLI hack](#SLI-hack)).
+
+The patched driver comes in two versions:
+* Regular;
+* NVENC- prefixed ([removed](https://github.com/keylase/nvidia-patch/tree/master/win) restriction on maximum number of simultaneous NVENC video encoding).
+
+**Attention: Do not use NVENC- prefixed package if your mining card does not have hardware NVENC support. In this case driver will cause problems (crashes) in applications supporting NVENC.**
 
 2. Download the official driver package from the NVIDIA website.
 3. Download [Display Driver Uninstaller](https://www.wagnardsoft.com/display-driver-uninstaller-ddu-) (DDU).
