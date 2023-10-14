@@ -1,5 +1,4 @@
 # NVIDIA patched drivers
-
 Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX mining cards.
 
 ## Usage
@@ -18,15 +17,15 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 
 Result:
 
-![Screenshot of GPU-Z window](gpu-z.png)
+![Screenshot of GPU-Z window](GPU-Z.png)
 
 Now you can plug the network cable / enable Wi-Fi back.
 
-8.1. In Windows 10 open the `NVIDIA control panel` → `3D settings` → `Manage 3D settings` and set "High-performance NVIDIA processor" as preferred graphics processor:
+8.1. In Windows 10 open the NVIDIA control panel → 3D settings → Manage 3D settings → set "High-performance NVIDIA processor" as preferred graphics processor:
 
 ![Screenshot of NVIDIA control panel](NVIDIA%20Manage%203D%20Settings.jpg) ![Screenshot of "High-performance NVIDIA processor" option](High%20Performance%20NVIDIA%20Processor.jpg)
 
-8.2. In Windows 11 open `Settings` → `System` → `Display` → `Graphics` → `Change default graphic settings` and set mining card as the default high-performance graphic adapter:
+8.2. In Windows 11 open Settings → System → Display → Graphics → Change default graphic settings → set mining card as the default high-performance graphic adapter:
 
 ![Screenshot of "Default High-performance GPU" option](Windows%20Default%20High-performance%20GPU.png)
 
@@ -34,12 +33,12 @@ Now you can plug the network cable / enable Wi-Fi back.
 It is possible to pair together different GPUs of similar generation/architecture to work together in SLI (Note: Mixing different VRAM sizes may cause some instability or stop SLI from functioning properly). It can also enable SLI on some non SLI/Crossfire compatible motherboards, making it a replacement for the now discontinued HyperSLI program (Note: The SLI support on non multi-GPU motherboards is not guaranteed).
 
 Mandatory requirements:
-* Driver version 446.14 (exactly this version)
+* Driver version 446.14 (exactly this version).
 * The first three symbols of Device ID for both cards must match. Go to Windows Device Manager → Right-click on device → Properties → Switch to the "Details" tab →  Select "Hardware IDs" from the combo box.
 
 As an example:  
-NVIDIA_DEV.**118**5.098A.10DE = "NVIDIA GeForce GTX 660"  
-NVIDIA_DEV.**118**5.106F.10DE = "NVIDIA GeForce GTX 760"
+NVIDIA_DEV.`118`5.098A.10DE = "NVIDIA GeForce GTX 660"  
+NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 
 Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
 
@@ -52,22 +51,19 @@ https://www.youtube.com/watch?v=AlLid4uGxpw
 Russian:
 https://www.youtube.com/watch?v=twRIYq2p-38
 
-## Shadowplay, also known as the Nvidia overlay (on cards that support NVENC),
-In order to use the ShadowPlay overlay to record gameplay, use the resource monitor, or stream, you must follow these steps:
-
+## Using ShadowPlay, also known as the NVIDIA overlay
 Requirements
 * A graphics card that supports NVENC.
-* Download and install the latest version of the patch.
-* Download and install GeForce Experience (no need to log in).
+* Download and install [GeForce Experience](https://www.nvidia.com/en-us/geforce/geforce-experience/download/) (no need to log in).
 
-Steps
-1. Go to the installation path of Nvidia GeForce Experience, usually located at: `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`.
-2. Once there, locate the executable named `NVIDIA Share.exe` and create a shortcut on your desktop.
-3. Right-click on the created desktop shortcut, go to properties, and in the `Target` field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click apply and ok.
+In order to use the ShadowPlay overlay to record gameplay, use the resource monitor, or stream, you must follow these steps:
+1. Go to the installation path of Nvidia GeForce Experience, usually located at `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`
+2. Once there, locate the executable named "NVIDIA Share.exe" and create a shortcut on your desktop.
+3. Right-click on the created desktop shortcut, go to properties, and in the "Target" field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click OK.
 
-![image](https://github.com/dartraiden/NVIDIA-patcher/assets/19232315/1c9ce99b-ae8e-4694-8064-aa023455d2fc)
+![Screenshot of NVIDIA Share shortcut](NVIDIA%20Share%20shortcut.png)
 
-4. Now double-click on the shortcut, and you'll notice that nothing appears to happen. However, when you press Alt + Z, the Nvidia ShadowPlay overlay will open.
-Note: You do not need to double-click the shortcut again; this is a one-time setup. From now on, you can always open Shadowplay by pressing Alt + Z.
+4. Now double-click on the shortcut, and you'll notice that nothing appears to happen. However, when you press `Alt+Z`, the ShadowPlay overlay will open.
+Note: You do not need to double-click the shortcut again; this is a one-time setup. From now on, you can always open ShadowPlay by pressing `Alt+Z`.
 
-![image](https://github.com/dartraiden/NVIDIA-patcher/assets/19232315/e64dfcb1-9300-471c-89fa-7d3b768919c6)
+![Screenshot of ShadowPlay](ShadowPlay.png)
