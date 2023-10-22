@@ -13,7 +13,7 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 
 The patched driver comes in two versions:
 * Regular;
-* NVENC-NvFBC- prefixed ([removed](https://github.com/keylase/nvidia-patch/tree/master/win) restriction on maximum number of simultaneous NVENC video encoding; [enabled](https://github.com/keylase/nvidia-patch/tree/master/win/nvfbcwrp)NvFBC for all NvFBC-targeted applications).
+* NVENC-NvFBC- prefixed ([removed](https://github.com/keylase/nvidia-patch/tree/master/win) restriction on maximum number of simultaneous NVENC video encoding; [enabled](https://github.com/keylase/nvidia-patch/tree/master/win/nvfbcwrp) NvFBC for all NvFBC-targeted applications).
 
 **Attention: Do not use NVENC- prefixed package if your mining card does not have hardware NVENC support. In this case driver will cause problems (crashes) in applications supporting NVENC.**
 
