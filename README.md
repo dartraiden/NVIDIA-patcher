@@ -4,7 +4,7 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
 
-1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases).
+1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://disk.yandex.ru/d/5LO4wqy177XZyw)).
 
 * 546.01 — if you want to use mining card in pair with any AMD/Intel graphic or any [supported NVIDIA discrete graphic](https://www.nvidia.com/download/driverResults.aspx/212701/).
 * 516.61 - if you want to use [RTX 3080 Ti 20 GB](https://videocardz.com/newz/unreleased-geforce-rtx-3080-ti-with-20gb-memory-shows-up-with-overclocking-support).
