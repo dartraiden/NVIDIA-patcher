@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<BINARY_EXCEPTION_LIST>
+  <BINARIES>    
+    <!-- These Modules are are added by VS to console apps that can run on OneCore.-->
+    <!-- For Binary Element Name attribute will be excluded from APIValidator verification. -->
+    <!-- For Binary Element Reason attribute contains a string explaining why the binary should be exlcuded from APIValidator verification. -->
+    <!-- For Binary Element MSVSO attribute contains a string with VSO item tracking  why the binary should be exlcuded from APIValidator verification. -->
+    <Binary Name="msvcp140.dll" Reason="Added by VS to console apps not a OneCore Violation." MSVSO="18551277" />
+    <Binary Name="vcruntime140.dll" Reason="Added by VS to console apps not a OneCore Violation." MSVSO="18551277" />
+    <Binary Name="iumsdk.dll" Reason="Update binary allow list used by APIValidator to include iumsdk.dll." MSVSO="29485216" />
+    <Binary Name="mscoree.dll" Reason="Update binary allow list used by APIValidator to include mscoree.dll." MSVSO="29665640" />
+    <Binary Name="concrt140.dll" Reason="Will be redistributed with the driver when msvcp140.dll is used.  Drivers themselves won't depend on this, but msvcp140.dll does so it needs to be excluded as well so APIValidator validates appropriately." MSVSO="25618891" />
+   </BINARIES>
+</BINARY_EXCEPTION_LIST>
