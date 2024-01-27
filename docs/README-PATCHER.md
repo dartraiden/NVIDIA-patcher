@@ -1,6 +1,6 @@
 # How to use patcher
 
-**Attention: the driver will install and work only if [test mode](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/the-testsigning-boot-configuration-option) is enabled. This causes many anti-cheats to not work. If you don't like this, use [the driver I made](/docs/README.md).**
+**Attention: the driver will install and work only if [test mode](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/the-testsigning-boot-configuration-option) is enabled. This causes many anti-cheats to not work. If you don't like this, use [the driver I made](/docs/README.md). Please don't ask me where to get a certificate that works without test mode. Such certificates sometimes leak from various companies. I do not provide such certificates as it is completely illegal.**
 
 1. Enable [test mode](https://learn.microsoft.com/en-us/windows-hardware/drivers/install/the-testsigning-boot-configuration-option): use `bcdedit -set TESTSIGNING ON` command as admin, then reboot.
 
