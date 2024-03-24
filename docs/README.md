@@ -26,7 +26,7 @@ The patched driver comes in two versions:
 6. Unplug the network cable / disable Wi-Fi on your PC and clean the installed NVIDIA driver with DDU. Reboot PC.
 7. Run setup.exe.
 
-During installation, you can select the option "enable GPU fake names" so that the graphics adapter appears in the device manager with the name of the corresponding gaming video card.
+During installation, you can select the option "Spoof GPU name" so that the graphics adapter appears in the device manager with the name of the corresponding gaming video card.
 
 Result:
 
