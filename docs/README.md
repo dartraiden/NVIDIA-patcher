@@ -24,7 +24,9 @@ The patched driver comes in two versions:
 4. Unpack the official driver package with 7-Zip / WinRAR / etc.
 5. Replace original files with patched ones.
 6. Unplug the network cable / disable Wi-Fi on your PC and clean the installed NVIDIA driver with DDU. Reboot PC.
-7. Run Install.bat as admin.
+7. Run setup.exe.
+
+During installation, you can select the option "enable GPU fake names" so that the graphics adapter appears in the device manager with the name of the corresponding gaming video card.
 
 Result:
 
