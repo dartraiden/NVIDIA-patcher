@@ -44,6 +44,7 @@
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_20C2" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_220D" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_248A" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [0] == "DEV\.220(3|4|6|7|8)" == "PCI\VEN_10DE&DEV_2205" == "NVIDIA GeForce RTX 3080 Ti" == "" ==
 
 ------- Old P -------
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum.dl? == == [0][0] == == " [[07 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 87 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 C7 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 07 1C 00 00 00 00 00 00 00 00 00 00 07 00 00 00 09 1C]] " == "FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF" == "Version" <= "27.21.14.6679" ==
@@ -112,3 +113,16 @@
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx.dl? == == [0][0] == == " [[09 1E 07 00 49 1E 07 00 BC 1E 07 00 FC 1E 07 00 0B 1F 07 00 81 20 07 00 82 20 07 00 83 20 07 00 C2 20 07 00 89 21 07 00 0D 22 07 00 4D 22 07 00 8A 24 07]] " == "FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07" == "Version" >= "30.0.14.7111" ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx_cfg.dl? == == [0][0] == == " [[09 1E 07 00 49 1E 07 00 BC 1E 07 00 FC 1E 07 00 0B 1F 07 00 81 20 07 00 82 20 07 00 83 20 07 00 C2 20 07 00 89 21 07 00 0D 22 07 00 4D 22 07 00 8A 24 07]] " == "FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07" == "Version" >= "30.0.14.7111" ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvlddmkm.sy? == == [0][0] == == " [[09 1E 07 00 49 1E 07 00 BC 1E 07 00 FC 1E 07 00 0B 1F 07 00 81 20 07 00 82 20 07 00 83 20 07 00 C2 20 07 00 89 21 07 00 0D 22 07 00 4D 22 07 00 8A 24 07]] " == "FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07 00 FF FF 07" == "Version" >= "30.0.14.7111" ==
+
+------- RTX 3080 Ti 20GB -------
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum_cfg.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dumx.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dumx_cfg.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvoglv32.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvoglv64.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2um.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2um_cfg.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx_cfg.dl? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==
+= 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvlddmkm.sy? == == [0][0] == == "C5 21 00 00 C7 21 00 00 [[05 22]] 00 00 (07 22 00 00){0,1} 09 22 00 00 14 22 00 00 17 22 00 00 2B 22 00 00" == "FF FF" == ==

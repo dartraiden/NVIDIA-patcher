@@ -1,5 +1,5 @@
 # NVIDIA patched drivers
-Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards.
+Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as the officially unreleased RTX 3080 Ti 20GB.
 
 # If you don't trust me and want to patch the driver yourself, see [how to use patcher](/docs/README-PATCHER.md).
 
