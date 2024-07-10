@@ -1,7 +1,9 @@
 # NVIDIA patched drivers
 Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as the officially unreleased RTX 3080 Ti 20GB.
 
-# If you don't trust me and want to patch the driver yourself, see [how to use patcher](/docs/README-PATCHER.md).
+# Donation
+![](/docs/donate.png)
+If you like my project, press "Star" in the top right corner, please. You can also [donate me some money via Boosty](https://boosty.to/dartraiden/donate).
 
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
@@ -54,6 +56,8 @@ NVIDIA_DEV.`118`5.098A.10DE = "NVIDIA GeForce GTX 660"
 NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 
 Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
+
+# If you don't trust me and want to patch the driver yourself, see [how to use patcher](/docs/README-PATCHER.md).
 
 ## Unlocking full x16 PCI-E lines on the CMP-cards
 TL;DR: You need to solder the missing elements near the PCI-E slot.
