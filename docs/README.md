@@ -2,8 +2,17 @@
 Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as the officially unreleased RTX 3080 Ti 20GB.
 
 # Donation
-![](/docs/donate.png)
-If you like my project, press "Star" in the top right corner, please. You can also [donate me some money via Boosty](https://boosty.to/dartraiden/donate).
+![](/docs/donate.png)  
+If you like my project, press "Star" in the top right corner, please. You can also donate me some money:
+* [Boosty](https://boosty.to/dartraiden/donate)
+* [YooMoney](https://yoomoney.ru/to/410014777525134)
+* [WebMoney](https://donate.webmoney.com/w/Dns9GDPvvlgw2pFUqf1pff)
+* Crypto:
+  * BTC: bc1qakj06mgfcv8ypqeg38d6svwpefxluz90scmwvd
+  * LTC: ltc1qmhvewg7zjmmjw2uuyl37g26vxjjpywteppt6s9
+  * ETH: 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * USDT (Ethereum, ERC-20): 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
 
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
