@@ -1,5 +1,5 @@
 # NVIDIA patched drivers
-Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as the officially unreleased RTX 3080 Ti 20GB.
+Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as RTX 3060 3840SP and RTX 3080 Ti 20GB.
 
 # Donation
 ![](/docs/donate.png)  
@@ -19,8 +19,7 @@ If you like my project, press "Star" in the top right corner, please. You can al
 
 1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://disk.yandex.ru/d/5LO4wqy177XZyw)).
 
-* [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use mining card in pair with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
-* 516.61 - if you want to use [RTX 3080 Ti 20 GB](https://videocardz.com/newz/unreleased-geforce-rtx-3080-ti-with-20gb-memory-shows-up-with-overclocking-support).
+* [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use your card in pair with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
 * 472.12 — if you want to use mining card in pair with old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
 * 446.14 — if you want to use mining card (only PXXX, not CMP-cards) in SLI setup (see [SLI hack](#SLI-hack)).
 
