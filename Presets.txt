@@ -32,20 +32,20 @@
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_commonBase_addreg*" == "HKR,,AdapterType,%REG_DWORD%,1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_commonBase_addreg*" == "HKR,,EnableMsHybrid,%REG_DWORD%,1" ==
 
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B07" == "NVIDIA P102-100" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B87" == "NVIDIA P104-100" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1BC7" == "NVIDIA P104-101" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C07" == "NVIDIA P106-100" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C09" == "NVIDIA P106-090" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1E09" == "NVIDIA CMP 50HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1F0B" == "NVIDIA CMP 40HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2191.1332.1025" == "PCI\VEN_10DE&DEV_2189" == "NVIDIA CMP 30HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_2082" == "NVIDIA CMP 170HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_20C2" == "NVIDIA CMP 170HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_220D" == "NVIDIA CMP 90HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_248A" == "NVIDIA CMP 70HX" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [0] == "DEV\.220(3|4|6|7|8)" == "PCI\VEN_10DE&DEV_2205" == "NVIDIA GeForce RTX 3080 Ti 20GB" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [0] == "DEV\.248(6|7|8|9)" == "PCI\VEN_10DE&DEV_2501" == "NVIDIA GeForce RTX 3060 3840SP" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B07" == "NVIDIA GeForce GTX 1070" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B87" == "NVIDIA GeForce GTX 1070" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1BC7" == "NVIDIA GeForce GTX 1070" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C07" == "NVIDIA GeForce GTX 1060" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C09" == "NVIDIA GeForce GTX 1060" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1E09" == "NVIDIA GeForce RTX 2070 Super" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1F0B" == "NVIDIA GeForce RTX 2070 Super" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2191.1332.1025" == "PCI\VEN_10DE&DEV_2189" == "NVIDIA GeForce GTX 1660 Ti" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_2082" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_20C2" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_220D" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_248A" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [0] == "DEV\.220(3|4|6|7|8)" == "PCI\VEN_10DE&DEV_2205" == "NVIDIA GeForce RTX 3080 Ti" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [0] == "DEV\.248(6|7|8|9)" == "PCI\VEN_10DE&DEV_2501" == "NVIDIA GeForce RTX 3060" == "" ==
 
 ------- Old P -------
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum.dl? == == [0][0] == == " [[07 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 87 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 C7 1B 00 00 00 00 00 00 00 00 00 00 07 00 00 00 07 1C 00 00 00 00 00 00 00 00 00 00 07 00 00 00 09 1C]] " == "FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF 00 00 00 00 00 00 00 00 00 00 07 00 00 00 FF FF" == "Version" <= "27.21.14.6679" ==
