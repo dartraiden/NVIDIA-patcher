@@ -1,4 +1,4 @@
-# NVIDIA patched drivers
+ # NVIDIA patched drivers
 Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as RTX 3060 3840SP and RTX 3080 Ti 20GB.
 
 # Donation
@@ -77,14 +77,17 @@ Russian:
 https://www.youtube.com/watch?v=twRIYq2p-38
 
 ## Using ShadowPlay, also known as the NVIDIA overlay
-Requirements
-* A graphics card that supports NVENC.
-* Download and install [GeForce Experience](https://www.nvidia.com/en-us/geforce/geforce-experience/download/) (no need to log in).
+Requires graphics card that supports NVENC.
+
+### Recommended method: [NVIDIA App](https://www.nvidia.com/en-us/software/nvidia-app/)
+
+### Alternative method: GeForce Experience
 
 In order to use the ShadowPlay overlay to record gameplay, use the resource monitor, or stream, you must follow these steps:
-1. Go to the installation path of Nvidia GeForce Experience, usually located at `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`
-2. Once there, locate the executable named "NVIDIA Share.exe" and create a shortcut on your desktop.
-3. Right-click on the created desktop shortcut, go to properties, and in the "Target" field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click OK.
+1. Download and install [GeForce Experience](https://www.nvidia.com/en-us/geforce/geforce-experience/download/) (no need to log in).
+2. Go to the installation path of Nvidia GeForce Experience, usually located at `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`
+3. Once there, locate the executable named "NVIDIA Share.exe" and create a shortcut on your desktop.
+4. Right-click on the created desktop shortcut, go to properties, and in the "Target" field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click OK.
 
 ![Screenshot of NVIDIA Share shortcut](/docs/NVIDIA%20Share%20shortcut.png)
 
