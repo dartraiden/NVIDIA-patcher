@@ -68,6 +68,10 @@ NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 
 Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
 
+## Troubleshooting
+* Problem: A BSOD after installing the driver.  
+Solution: Add the `C:\Windows\System32\DriverStore` directory to the exceptions of Windows Defender (or other antivirus you use). Reinstall the driver after that.
+
 # If you don't trust me and want to patch the driver yourself, see [how to use patcher](/docs/README-PATCHER.md).
 
 ## Unlocking full x16 PCI-E lines on the CMP-cards
