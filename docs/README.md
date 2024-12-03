@@ -3,7 +3,7 @@ Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P10
 
 # Donation
 ![](/docs/donate.png)  
-If you like my project, press "Star" in the top right corner, please. You can also donate me some money:
+If you like my project, please press "Star" in the top right corner. You can also donate me some money:
 * [Boosty](https://boosty.to/dartraiden/donate)
 * [YooMoney](https://yoomoney.ru/to/410014777525134)
 * [WebMoney](https://donate.webmoney.com/w/Dns9GDPvvlgw2pFUqf1pff)
@@ -15,16 +15,18 @@ If you like my project, press "Star" in the top right corner, please. You can al
   * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
 
 ## Security and transparency
-You can remove digital signature from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/). Repeat this with the original files from the NVIDIA distribution. Now compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report your antivirus manufacturer about the false positive.
+You can remove digital signatures from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
 
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
 
+It's recommended to use Windows 11 because it has an updated mechanism for switching between multiple video cards.
+
 1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://disk.yandex.ru/d/5LO4wqy177XZyw)).
 
-* [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use your card in pair with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
-* 472.12 — if you want to use mining card in pair with old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
-* 446.14 — if you want to use mining card (only PXXX, not CMP-cards) in SLI setup (see [SLI hack](#SLI-hack)).
+* [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use your card paired with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
+* 472.12 — if you want to use a mining card paired with an old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
+* 446.14 — if you want to use a mining card (only PXXX, not CMP-cards) in the SLI setup (see [SLI hack](#SLI-hack)).
 
 The patched driver comes in two versions:
 * Regular;
@@ -45,9 +47,9 @@ Result:
 
 ![Screenshot of GPU-Z window](/docs/GPU-Z.png)
 
-Now you can plug the network cable / enable Wi-Fi back.
+Now you can plug in the network cable / enable Wi-Fi back.
 
-8.1. In Windows 10 open the NVIDIA control panel → 3D settings → Manage 3D settings → set "High-performance NVIDIA processor" as preferred graphics processor:
+8.1. In Windows 10 open the NVIDIA control panel → 3D settings → Manage 3D settings → set "High-performance NVIDIA processor" as the preferred graphics processor:
 
 ![Screenshot of NVIDIA control panel](/docs/NVIDIA%20Manage%203D%20Settings.jpg) ![Screenshot of "High-performance NVIDIA processor" option](/docs/High%20Performance%20NVIDIA%20Processor.jpg)
 
@@ -56,7 +58,7 @@ Now you can plug the network cable / enable Wi-Fi back.
 ![Screenshot of "Default High-performance GPU" option](/docs/Windows%20Default%20High-performance%20GPU.png)
 
 ## SLI hack
-It is possible to pair together different GPUs of similar generation/architecture to work together in SLI (Note: Mixing different VRAM sizes may cause some instability or stop SLI from functioning properly). It can also enable SLI on some non SLI/Crossfire compatible motherboards, making it a replacement for the now discontinued HyperSLI program (Note: The SLI support on non multi-GPU motherboards is not guaranteed).
+It is possible to pair together different GPUs of similar generation/architecture to work together in SLI (Note: Mixing different VRAM sizes may cause some instability or stop SLI from functioning properly). It can also enable SLI on some non-SLI/Crossfire compatible motherboards, making it a replacement for the discontinued HyperSLI program (Note: The SLI support on non-multi-GPU motherboards is not guaranteed).
 
 Mandatory requirements:
 * Driver version 446.14 (exactly this version).
@@ -69,10 +71,13 @@ NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
 
 ## Troubleshooting
-* Problem: A BSOD after installing the driver.  
+* Problem: Antivirus software removes driver.  
 Solution: Add the `C:\Windows\System32\DriverStore` directory to the exceptions of Windows Defender (or other antivirus you use). Reinstall the driver after that.
 
-# If you don't trust me and want to patch the driver yourself, see [how to use patcher](/docs/README-PATCHER.md).
+* Problem: A BSOD after installing the driver.  
+Solution: Turn off the [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
+
+# If you don't trust me and want to patch the driver by yourself, see [how to use patcher](/docs/README-PATCHER.md).
 
 ## Unlocking full x16 PCI-E lines on the CMP-cards
 TL;DR: You need to solder the missing elements near the PCI-E slot.
@@ -90,7 +95,7 @@ Requires graphics card that supports NVENC.
 
 ### Alternative method: GeForce Experience
 
-In order to use the ShadowPlay overlay to record gameplay, use the resource monitor, or stream, you must follow these steps:
+To use the ShadowPlay overlay to record gameplay, use the resource monitor or stream, you must follow these steps:
 1. Download and install [GeForce Experience](https://www.nvidia.com/en-us/geforce/geforce-experience/download/) (no need to log in).
 2. Go to the installation path of Nvidia GeForce Experience, usually located at `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`
 3. Once there, locate the executable named "NVIDIA Share.exe" and create a shortcut on your desktop.
@@ -102,3 +107,6 @@ In order to use the ShadowPlay overlay to record gameplay, use the resource moni
 Note: You do not need to double-click the shortcut again; this is a one-time setup. From now on, you can always open ShadowPlay by pressing `Alt+Z`.
 
 ![Screenshot of ShadowPlay](/docs/ShadowPlay.png)
+
+## DirectX 12 on Haswell
+https://www.techpowerup.com/288676/intel-disables-directx-12-api-loading-on-haswell-processors
