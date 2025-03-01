@@ -30,7 +30,7 @@ for /f %%a in ( 'curl -o nul -s -Iw "%%{http_code}" "%Nvfbc64WrapperUrl%"' ) do 
 if not %http% == 200 (
 	echo NvFBC wrapper is not found^^!
 	pause
-	exit /b 0
+	exit /b 1
 )
 
 :UnpackNvfbcFiles

@@ -12,6 +12,9 @@ Function Info-PFX {
        ,
         [Parameter(Mandatory = $false)]
         [string] $Openssl = $Openssl # need v3.1.1 + legacy.dll
+       ,
+        [Parameter(Mandatory = $false)]
+        [int] $iIndentSize = 0
     )
 
     # Получение имени этой функции.
@@ -83,7 +86,7 @@ Function Info-PFX {
     if ( -not ($ClientSubject -and $ClientIssuer -and ($ClientSubject -ne $ClientIssuer)))
     {
         Write-host '    PFX: ' -ForegroundColor DarkGray -NoNewline
-        Write-host "$NameThisFunction`: $namePFX$extPFX | Error: No Client cert in $namePFX.pfx" -ForegroundColor Red
+        Write-host "$NameThisFunction`: $namePFX$extPFX | Error: No Client cert in $namePFX$extCER" -ForegroundColor Red
         Return
     }
 
@@ -96,10 +99,13 @@ Function Info-PFX {
         Vers      = [regex]::Match($iCert,'Version: (?<Name>[\d]+)',4).Groups['Name'].Value
     }
 
-    $Info = '{0} v{1} | {2} > {3}' -f $hClient.SigAlg, $hClient.Vers, $hClient.notBefore, $hClient.notAfter
+    # глабальные данные для отображения у каких сертификатов какие алгоритмы подписи, если не указаны другие принудительно 
+    $hDataCertAlgsGlobal["$namePFX$extPFX"] = @{ SigAlg = $hClient.SigAlg }
+
+    $Info = '{0,-6} v{1} | {2} > {3}' -f $hClient.SigAlg, $hClient.Vers, $hClient.notBefore, $hClient.notAfter
 
     Write-host '    PFX: ' -ForegroundColor DarkGray -NoNewline
-    Write-host $namePFX$extPFX -ForegroundColor White -NoNewline
+    Write-host $("{0,-$iIndentSize}" -f "$namePFX$extPFX") -ForegroundColor White -NoNewline
 
     if ( $noPass )
     {

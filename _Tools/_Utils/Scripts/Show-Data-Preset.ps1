@@ -23,6 +23,7 @@ Function Show-Data-Preset {
     [int] $N2 = 0
 
     [System.Collections.Generic.List[string]] $aShowed = @()
+    [hashtable] $hDataCertAlgsGlobal = @{}
 
     [string] $File = ''
 
@@ -30,7 +31,7 @@ Function Show-Data-Preset {
     # UnPack or Folder
     if ( $dUnPackOrFolderGlobal.File )
     {
-        if ( $dUnPackOrFolderGlobal.getName )
+        if ( $dUnPackOrFolderGlobal.packName )
         {
             if ( $dUnPackOrFolderGlobal.UnPack )
             {
@@ -190,6 +191,15 @@ Function Show-Data-Preset {
     }
 
 
+    # вычислить максимальную длину имен файлов сертификатов для выравнивания отступом при выводе в меню для PFX: и Sign:
+    [int] $iIndentSize = 0
+
+    foreach ( $f in $aDataToSignFilesGlobal.FileCert )
+    {
+        $iIndentSize = [math]::Max($f.Length, $iIndentSize)
+    }
+
+
 
     $N2 = 0
     $aShowed = @()
@@ -203,7 +213,23 @@ Function Show-Data-Preset {
 
             if ( $N -and -not $N2 ) { Write-host }
 
-            Info-PFX -FilePFX "$Folder\$($d.FileCert)" -Pass $d.Pass
+            Info-PFX -FilePFX "$Folder\$($d.FileCert)" -Pass $d.Pass -iIndentSize $iIndentSize
+
+            $N++
+            $N2++
+        }
+    }
+
+    # CER (инфа) .crt/.cer | после всех pfx
+    foreach ( $d in $aDataToSignFilesGlobal.Where({ $_.FileCert -match '\.(cer|crt)$' }))
+    {
+        if ( -not ( $aShowed -eq $d.FileCert ))  # Отображение по одному разу без сортировки
+        {
+            $aShowed.Add($d.FileCert)
+
+            if ( $N -and -not $N2 ) { Write-host }
+
+            Info-CER -FileCER "$Folder\$($d.FileCert)" -iIndentSize $iIndentSize
 
             $N++
             $N2++
@@ -216,33 +242,29 @@ Function Show-Data-Preset {
 
     [System.Collections.Generic.List[PSObject]] $aStages = @()
 
-    # [1]: Signing non-CAT files (with PFX files)
+    # [1]: Signing non-CAT files (first Signs)
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'PFX'
         FileType = 'non-CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -like '*.pfx' -and $_.SignFile -notmatch '\.ca(t|\?)$' }))
+        aData    = @($aDataToSignFilesGlobal.Where({( -not $_.addSign ) -and ( -not $_.isCAT )}))
     })
 
-    # [2]: Signing non-CAT files (with Gen-Sign.crt)
+    # [1]: Signing non-CAT files (+ Add Signs)
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'Gen-Sign.crt'
         FileType = 'non-CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -eq 'Gen-Sign.crt' -and $_.SignFile -notmatch '\.ca(t|\?)$' }))
+        aData    = @($aDataToSignFilesGlobal.Where({(      $_.addSign ) -and ( -not $_.isCAT )}))
     })
 
-    # [3]: Signing CAT files (with Gen-Sign.crt)
+    # [2]: Signing CAT files
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'Gen-Sign.crt'
         FileType = 'CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -eq 'Gen-Sign.crt' -and $_.SignFile -like '*.cat' }))
+        aData    = @($aDataToSignFilesGlobal.Where({ $_.isCAT }))
     })
 
-    # [4]: Signing CAT files (with PFX files)
-    $aStages.Add( [PSCustomObject] @{
-        CertType = 'PFX'
-        FileType = 'CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -like '*.pfx' -and $_.SignFile -like '*.cat' }))
-    })
+
+
+
+
+    [string] $ShowAlg = ''
 
     # Sign
     foreach ( $Stage in $aStages )
@@ -252,24 +274,79 @@ Function Show-Data-Preset {
             if ( $N -and -not $N2 ) { Write-host }
 
             Write-host '   Sign: ' -ForegroundColor DarkGray -NoNewline
-            Write-host $d.FileCert -ForegroundColor DarkCyan -NoNewline
+            Write-host $("{0,-$iIndentSize}" -f $d.FileCert) -ForegroundColor DarkCyan -NoNewline
             Write-host ' ► ' -ForegroundColor White -NoNewline
-   
-            if ( $d.ST -eq 'S' )
+            Write-host $d.TimeStamp -ForegroundColor DarkGreen -NoNewline
+
+            Write-host ' |' -ForegroundColor DarkGray -NoNewline
+
+            if ( $d.addSign )
             {
-                Write-host 'S = only Sign :::::' -ForegroundColor DarkGreen -NoNewline
+                Write-host '+ ' -ForegroundColor Blue -NoNewline
             }
             else
             {
-                Write-host $d.TimeStamp -ForegroundColor DarkGreen -NoNewline
+                Write-host '  ' -NoNewline
             }
+
+            if ( $d.AlgForce )
+            {
+                $ShowAlg = '{0,-6}' -f $d.AlgForce
+
+                if ( $d.AlgForce -eq $hDataCertAlgsGlobal[$d.FileCert].SigAlg )
+                {
+                    Write-host $ShowAlg -ForegroundColor DarkGray -NoNewline
+                }
+                else
+                {
+                    Write-host $ShowAlg -ForegroundColor DarkMagenta -NoNewline
+                }
+            }
+            elseif ( $hDataCertAlgsGlobal[$d.FileCert].SigAlg )
+            {
+                $ShowAlg = '{0,-6}' -f $hDataCertAlgsGlobal[$d.FileCert].SigAlg
+                
+                Write-host $ShowAlg -ForegroundColor DarkGray -NoNewline
+            }
+            else
+            {
+                Write-host '------' -ForegroundColor Red -NoNewline
+            }
+
+
 
             Write-host ' | ' -ForegroundColor DarkGray -NoNewline
             Write-host $d.SignFile -ForegroundColor Gray -NoNewline
 
+
+
+            if ( $d.SignFile -notlike '*.ca[t?]' ) # .ca? универсальное указание в пресете для запакованных файлов .ca_ или .cat
+            {
+                Write-host ' | ind: ' -ForegroundColor DarkGray -NoNewline
+
+                if ( $d.AddIndex -ge 2  )
+                {
+                    Write-host $d.AddIndex -ForegroundColor Blue -NoNewline
+                }
+                elseif ( $d.AddIndex -eq 1 )
+                {
+                    Write-host $d.AddIndex -ForegroundColor Blue -NoNewline
+                }
+                else
+                {
+                    Write-host '0' -ForegroundColor DarkGray -NoNewline
+                }
+            }
+            
             if ( $d.ST -eq 'T' )
             {
-                Write-host ' (T = only TimeStamp)' -ForegroundColor DarkGray -NoNewline
+                Write-host ' | ' -ForegroundColor DarkGray -NoNewline
+                Write-host 'T = only TimeStamp' -ForegroundColor DarkMagenta -NoNewline
+            }
+            elseif ( $d.ST -eq 'S' )
+            {
+                Write-host ' | ' -ForegroundColor DarkGray -NoNewline
+                Write-host 'S = only Sign' -ForegroundColor DarkMagenta -NoNewline
             }
 
             if ( $d.OS )
@@ -320,7 +397,7 @@ Function Show-UnPack-Or-Folder {
     # UnPack or Folder
     if ( $dUnPackOrFolderGlobal.File )
     {
-        if ( $dUnPackOrFolderGlobal.getName )
+        if ( $dUnPackOrFolderGlobal.packName )
         {
             if ( $dUnPackOrFolderGlobal.UnPack )
             {

@@ -40,14 +40,21 @@ Function Get-Data-Preset {
     [string] $Folder   = ''
     [string] $toFolder = ''
     [string] $unPack   = ''
-    [string] $getName  = ''
+    [string] $packName = ''
+
+      [bool] $addSign  = $false
+      [bool] $skipSign = $false
+       [int] $ind      = 0
+    [string] $alg      = ''
 
     [string] $Line      = ''
     [string] $Pass      = ''
     [string] $TimeStamp = ''
       [bool] $CurTime   = $false
+      [bool] $GenExist  = $false
 
-    [string] $check = ''
+    [string] $pattern = ''
+    [string] $check   = ''
     
     [string[]] $only     = @()
     [string[]] $excludes = @()
@@ -77,8 +84,8 @@ Function Get-Data-Preset {
             
             if ( $unPack )
             {
-                $getName  = '{0}{1}' -f $Matches.pref, [System.IO.Path]::GetFileNameWithoutExtension($unPack)
-                $toFolder = '{0}\Edit\{1}' -f $EditFolder, $getName
+                $packName = '{0}{1}' -f $Matches.pref, [System.IO.Path]::GetFileNameWithoutExtension($unPack)
+                $toFolder = '{0}\Edit\{1}' -f $EditFolder, $packName
 
                 $only     = ([regex]::Split($Matches.only,',').Trim().Trim('"')).Where({$_})
 
@@ -94,7 +101,7 @@ Function Get-Data-Preset {
             {
                 try { $toFolder = ([string[]][System.IO.Directory]::EnumerateDirectories("$EditFolder\Edit", $Folder))[-1] } catch {}  # Взять одну последнюю папку (-like Last)
                 
-                if ( $toFolder ) { $getName = $toFolder -replace('.+\\','') }
+                if ( $toFolder ) { $packName = $toFolder -replace('.+\\','') }
             }
 
             $dUnPackOrFolderGlobal = [PSCustomObject] @{
@@ -102,7 +109,7 @@ Function Get-Data-Preset {
                 UnPack   = $unPack   # found (fullpath to archive file) [exist]
                 File     = $File     # file name + ext    [pattern]
                 Folder   = $Folder   # file name + prefix [pattern]
-                getName  = $getName  # found name + prefix [exist: archive and/or folder]
+                packName = $packName # found name + prefix [exist: archive and/or folder]
                 
                 onlyInclude = $only
                 excludes    = $excludes
@@ -121,7 +128,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.File
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             $aDataContentFixGlobal.Add( @{ $File = @{
                 Encoding     = $Matches.Enc
@@ -137,7 +144,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.File
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             $aDataContentFixGlobal.Add( @{ $File = @{
                 Encoding = $Matches.Enc
@@ -155,7 +162,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.FileINF
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             $aDataContentFixGlobal.Add( @{ $File = @{
                 Encoding     = $Matches.Enc
@@ -173,7 +180,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.FileINF
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             $aDataContentFixGlobal.Add( @{ $File = @{
                 Encoding        = $Matches.Enc
@@ -193,7 +200,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.File
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             $aDataContentFixGlobal.Add( @{ $File = @{
                 Encoding      = $Matches.Enc
@@ -207,16 +214,16 @@ Function Get-Data-Preset {
     # [1] Patch-PE-Univers
     foreach ( $Line in ( $ListPresetsGlobal -match '^=\s*1\s*=\s*Patch-PE-Univers' ))
     {
-        if ( $Line -match '^=\s*1\s*=\s*Patch-PE-Univers\s*=\s*\\(?<File>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(x|х)?(?<arch>(64|86)?)\s*==\s*\[\s*(?<need>-?\d+)\s*\]\s*\[\s*(?<max>\d+)\s*\]\s*==\s*(?<showHex>\d*)\s*==\s*"(?<uFromHex>[a-f0-9{,}?(|)\s]*?\[\[(\s*[?0-9a-f]{2})+\s*\]\][a-f0-9{,}?(|)\s]*)"\s*==\s*"(?<toHex>(\s*[0-9a-f]{2})+)\s*"\s*==\s*(?<check>[^\r\n]*?)\s*==' )
+        if ( $Line -match '^=\s*1\s*=\s*Patch-PE-Univers\s*=\s*\\(?<File>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(x|х)?(?<arch>(64|86)?)\s*==\s*\[\s*(?<need>-?\d+)\s*\]\s*\[\s*(?<max>\d+)\s*\]\s*==\s*(?<showHex>\d*)\s*==\s*"(?<uFromHex>[a-f0-9{,}?(|)\s]*?\[\[(\s*[?0-9a-f]{2}(\s*\|)?)+\s*\]\][a-f0-9{,}?(|)\s]*)"\s*==\s*"(?<toHex>(\s*[0-9a-f]{2})+)\s*"\s*==\s*(?<check>[^\r\n]*?)\s*==' )
         {
             $File  = $Matches.File
             $check = $Matches.check.Trim()
 
-            if ( $getName -and $Matches.v )
+            if ( $packName -and $Matches.v )
             {
-                $File = $File.Replace('\%\',"\$getName\")
+                $File = $File.Replace('\%\',"\$packName\")
 
-                if ( $check ) { $check = $check.Replace('\%\',"\$getName\") }
+                if ( $check ) { $check = $check.Replace('\%\',"\$packName\") }
             }
 
             $aDataPatchGlobal.Add( @{ $File = @{
@@ -239,11 +246,11 @@ Function Get-Data-Preset {
             $File  = $Matches.File
             $check = $Matches.check.Trim()
 
-            if ( $getName -and $Matches.v )
+            if ( $packName -and $Matches.v )
             {
-                $File = $File.Replace('\%\',"\$getName\")
+                $File = $File.Replace('\%\',"\$packName\")
 
-                if ( $check ) { $check = $check.Replace('\%\',"\$getName\") }
+                if ( $check ) { $check = $check.Replace('\%\',"\$packName\") }
             }
 
             $aDataPatchGlobal.Add( @{ $File = @{
@@ -269,11 +276,11 @@ Function Get-Data-Preset {
             $File  = $Matches.File
             $check = $Matches.check.Trim()
 
-            if ( $getName -and $Matches.v )
+            if ( $packName -and $Matches.v )
             {
-                $File = $File.Replace('\%\',"\$getName\")
+                $File = $File.Replace('\%\',"\$packName\")
 
-                if ( $check ) { $check = $check.Replace('\%\',"\$getName\") }
+                if ( $check ) { $check = $check.Replace('\%\',"\$packName\") }
             }
 
             $aDataPatchGlobal.Add( @{ $File = @{
@@ -318,75 +325,11 @@ Function Get-Data-Preset {
         }
     }
 
-
-    # PFX-To-Sign
-    if ( $aDataCert.Count )
-    {
-        foreach ( $Line in ( $ListPresetsGlobal -match '^=\s*1\s*=\s*PFX-To-Sign-' ))
-        {
-            # No CAT sign (PFX)
-            if ( $Line -match '^=\s*1\s*=\s*PFX-To-Sign-File\s*=\s*(?<FilePFX>[^"\\\r\n]+?[.]pfx)\s*==\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(?<ST>(ST|TS|S|T))\s*==' )
-            {
-                $File = $Matches.Sign
-
-                if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
-
-                if ( -not (( $aDataToSignFilesGlobal.SignFile -eq $File ) -or ( $File -like '*.ca[t?]' )))
-                {
-                    $Cert = $aDataCert.Where({ $_.FileCert -eq $Matches.FilePFX },'First')
-
-                    if ( $Cert.FileCert -and ( [System.IO.File]::Exists("$CertsFolder\$($Cert.FileCert)") ))
-                    {
-                        $aDataToSignFilesGlobal += [PSCustomObject]@{
-
-                            SignFile  = $File
-                            OS        = ''
-                            ST        = $Matches.ST
-
-                            FileCert  = $Cert.FileCert
-                            Pass      = $Cert.Pass
-                            TimeStamp = $Cert.TimeStamp
-                            CurTime   = $Cert.CurTime
-                            FileCross = $Cert.FileCross
-                        }
-                    }
-                }
-            }
-
-            # CAT sign (PFX)
-            if ( $Line -match '^=\s*1\s*=\s*PFX-To-Sign-CatFile\s*=\s*(?<FilePFX>[^"\\\r\n]+?[.]pfx)\s*==\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\r\n]+?[.]cat)\s*==\s*(?<OS>[^\\\s][^"\\\r\n]+?)\s*==' )
-            {
-                $File = $Matches.Sign
-
-                if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
-
-                if ( -not ( $aDataToSignFilesGlobal.SignFile -eq $File ))
-                {
-                    $Cert = $aDataCert.Where({ $_.FileCert -eq $Matches.FilePFX },'First')
-
-                    if ( $Cert.FileCert -and ( [System.IO.File]::Exists("$CertsFolder\$($Cert.FileCert)") ))
-                    {
-                        $aDataToSignFilesGlobal += [PSCustomObject]@{
-
-                            SignFile  = $File
-                            OS        = $Matches.OS.Split(',').Trim() -join ','
-                            ST        = ''
-
-                            FileCert  = $Cert.FileCert
-                            Pass      = $Cert.Pass
-                            TimeStamp = $Cert.TimeStamp
-                            CurTime   = $Cert.CurTime
-                            FileCross = $Cert.FileCross
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
+   
     # Gen
-    if ( [System.IO.File]::Exists("$CertsFolder\Gen-Sign.crt") )
+    if ( [System.IO.File]::Exists("$CertsFolder\Gen-Sign.crt") ) { $GenExist = $true }
+
+    if ( $GenExist )
     {
         $Pass = ''
 
@@ -415,17 +358,114 @@ Function Get-Data-Preset {
                 break
             }
         }
+    }
 
-        # No CAT (Gen)
-        foreach ( $Line in ( $ListPresetsGlobal -match '^=\s*1\s*=\s*Gen-To-Sign-File' ))
+
+    # PFX-To-Sign or/and Gen-To-Sign
+    if ( $GenExist -or $aDataCert.Count )
+    {
+        if     ( $GenExist -and $aDataCert.Count ) { $pattern = '^=\s*1\s*=\s*(Gen|PFX)-To-Sign-' }
+        elseif ( $GenExist                       ) { $pattern = '^=\s*1\s*=\s*Gen-To-Sign-'       }
+        else                                       { $pattern = '^=\s*1\s*=\s*PFX-To-Sign-'       }
+
+        foreach ( $Line in ( $ListPresetsGlobal -match $pattern ))
         {
-            if ( $Line -match '^=\s*1\s*=\s*Gen-To-Sign-File\s*=\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(?<ST>(ST|TS|S|T))\s*==' )
+            # PFX
+
+            # PFX (non-CAT)
+            if     ( $Line -match '^=\s*1\s*=\s*PFX-To-Sign-File\s*=\s*(?<FilePFX>[^"\\\r\n]+?[.]pfx)\s*==\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(?<iAdd>\+)?(?<ST>(ST|TS|S|T))(?<ind>\d)?(\s+(sha)?(?<alg>(1|256|384|512)))?\s*==' )
+            {
+                $File = $Matches.Sign
+                $alg  = $(if ( $Matches.alg ) { 'sha{0}' -f $Matches.alg } else {''})
+                if ( $Matches.iAdd ) { $addSign = $true } else { $addSign = $false }
+                if ( $addSign ) { if ( $Matches.ST -eq 'T' ) { $ind = $Matches.ind } else { $ind = 1 }} else { $ind = 0 }
+
+                if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
+
+                # Если настройка для первой подписи, но уже есть для первой, то пропустить подпись
+                if (( -not $addSign ) -and $aDataToSignFilesGlobal.Where({ $_.SignFile -eq $File -and -not $_.addSign },'First').Count )
+                { $skipSign = $true } else { $skipSign = $false }
+
+                if ( $addSign -or (-not ( $skipSign -or ( $File -like '*.ca[t?]' )))) # .ca? универсальное указание в пресете для запакованных файлов, не для cat просто учесть обман для пропуска
+                {
+                    $Cert = $aDataCert.Where({ $_.FileCert -eq $Matches.FilePFX },'First')
+
+                    if ( $Cert.FileCert -and ( [System.IO.File]::Exists("$CertsFolder\$($Cert.FileCert)") ))
+                    {
+                        $aDataToSignFilesGlobal += [PSCustomObject]@{
+
+                            SignFile  = $File
+                            OS        = ''
+                            ST        = $Matches.ST
+                            
+                            isCAT     = $false
+                            CertType  = 'PFX'
+
+                            FileCert  = $Cert.FileCert
+                            Pass      = $Cert.Pass
+                            TimeStamp = $Cert.TimeStamp
+                            CurTime   = $Cert.CurTime
+                            FileCross = $Cert.FileCross
+                            
+                            AlgForce  = $alg
+                            AddIndex  = $ind
+                            addSign   = $addSign
+                        }
+                    }
+                }
+            }
+
+            # PFX (CAT)
+            elseif ( $Line -match '^=\s*1\s*=\s*PFX-To-Sign-CatFile\s*=\s*(?<FilePFX>[^"\\\r\n]+?[.]pfx)\s*==\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\r\n]+?[.]cat)\s*==\s*(?<OS>[^\\\s][^"\\\r\n]+?)\s*==' )
             {
                 $File = $Matches.Sign
 
-                if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+                if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
-                if ( -not (( $aDataToSignFilesGlobal.SignFile -eq $File ) -or ( $File -like '*.ca[t?]' )))
+                if ( -not ( $aDataToSignFilesGlobal.SignFile -eq $File ))
+                {
+                    $Cert = $aDataCert.Where({ $_.FileCert -eq $Matches.FilePFX },'First')
+
+                    if ( $Cert.FileCert -and ( [System.IO.File]::Exists("$CertsFolder\$($Cert.FileCert)") ))
+                    {
+                        $aDataToSignFilesGlobal += [PSCustomObject]@{
+
+                            SignFile  = $File
+                            OS        = $Matches.OS.Split(',').Trim() -join ','
+                            ST        = ''
+                            
+                            isCAT     = $true
+                            CertType  = 'PFX'
+
+                            FileCert  = $Cert.FileCert
+                            Pass      = $Cert.Pass
+                            TimeStamp = $Cert.TimeStamp
+                            CurTime   = $Cert.CurTime
+                            FileCross = $Cert.FileCross
+                        }
+                    }
+                }
+            }
+
+
+
+            # Gen
+
+            # Gen (non-CAT)
+            elseif ( $Line -match '^=\s*1\s*=\s*Gen-To-Sign-File\s*=\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\\\s][^\r\n]*?)[\\\s]*==\s*(?<iAdd>\+)?(?<ST>(ST|TS|S|T))(?<ind>\d)?(\s+(sha)?(?<alg>(1|256|384|512)))?\s*==' )
+            {
+                $File = $Matches.Sign
+                $alg  = $(if ( $Matches.alg ) { 'sha{0}' -f $Matches.alg } else {''})
+                if ( $Matches.iAdd ) { $addSign = $true } else { $addSign = $false }
+                if ( $addSign ) { if ( $Matches.ST -eq 'T' ) { $ind = $Matches.ind } else { $ind = 1 }} else { $ind = 0 }
+
+                if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
+
+                # Если настройка для первой подписи, но уже есть для первой, то пропустить подпись
+                if (( -not $addSign ) -and $aDataToSignFilesGlobal.Where({ $_.SignFile -eq $File -and -not $_.addSign },'First').Count )
+                { $skipSign = $true } else { $skipSign = $false }
+
+                if ( $addSign -or (-not ( $skipSign -or ( $File -like '*.ca[t?]' )))) # .ca? универсальное указание в пресете для запакованных файлов, не для cat просто учесть обман для пропуска
                 {
                     $aDataToSignFilesGlobal += [PSCustomObject]@{
 
@@ -433,24 +473,28 @@ Function Get-Data-Preset {
                         OS        = ''
                         ST        = $Matches.ST
 
+                        isCAT     = $false
+                        CertType  = 'Gen-Sign.crt'
+
                         FileCert  = 'Gen-Sign.crt'
                         Pass      = $Pass
                         TimeStamp = $TimeStamp
                         CurTime   = $CurTime
                         FileCross = ''
+
+                        AlgForce  = $alg
+                        AddIndex  = $ind
+                        addSign   = $addSign
                     }
                 }
             }
-        }
-
-        # CAT (Gen)
-        foreach ( $Line in ( $ListPresetsGlobal -match '^=\s*1\s*=\s*Gen-To-Sign-CatFile' ))
-        {
-            if ( $Line -match '^=\s*1\s*=\s*Gen-To-Sign-CatFile\s*=\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\r\n]+?[.]cat)\s*==\s*(?<OS>[^\\\s][^"\\\r\n]+?)\s*==' )
+            
+            # Gen (CAT)
+            elseif ( $Line -match '^=\s*1\s*=\s*Gen-To-Sign-CatFile\s*=\s*\\(?<Sign>Edit\\((?<V>%)|[^\\\s][^\r\n]*?)\\[^\r\n]+?[.]cat)\s*==\s*(?<OS>[^\\\s][^"\\\r\n]+?)\s*==' )
             {
                 $File = $Matches.Sign
 
-                if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+                if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
                 if ( -not ( $aDataToSignFilesGlobal.SignFile -eq $File ))
                 {
@@ -459,6 +503,9 @@ Function Get-Data-Preset {
                         SignFile  = $File
                         OS        = $Matches.OS.Split(',').Trim() -join ','
                         ST        = ''
+
+                        isCAT     = $true
+                        CertType  = 'Gen-Sign.crt'
 
                         FileCert  = 'Gen-Sign.crt'
                         Pass      = $Pass
@@ -472,6 +519,7 @@ Function Get-Data-Preset {
     }
 
 
+
     # UnSign
     foreach ( $Line in ( $ListPresetsGlobal -match '^=\s*1\s*=\s*UnSign-File' ))
     {
@@ -479,11 +527,11 @@ Function Get-Data-Preset {
         {
             $File = $Matches.UnSign
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             if ( -not ( $aDataRemoveSignGlobal -eq $File ))
             {
-                if ( -not ( $File -like '*.ca[t?]' ))
+                if ( -not ( $File -like '*.ca[t?]' )) # .ca? универсальное указание в пресете для запакованных файлов .ca_ или .cat
                 {
                     $aDataRemoveSignGlobal += $File
                 }
@@ -519,11 +567,11 @@ Function Get-Data-Preset {
         {
             $File = $Matches.Null
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             if ( -not ( $aDataNullFilesGlobal -eq $File ))
             {
-                if ( -not ( $File -like '*.ca[t?]' ))
+                if ( -not ( $File -like '*.ca[t?]' )) # .ca? универсальное указание в пресете для запакованных файлов .ca_ или .cat
                 {
                     $aDataNullFilesGlobal += $File
                 }
@@ -539,7 +587,7 @@ Function Get-Data-Preset {
         {
             $File = $Matches.CopyTo
 
-            if ( $getName -and $Matches.v ) { $File = $File.Replace('\%\',"\$getName\") }
+            if ( $packName -and $Matches.v ) { $File = $File.Replace('\%\',"\$packName\") }
 
             if ( -not ( $aDataCopyFilesGlobal.File -eq $Matches.File ))
             {

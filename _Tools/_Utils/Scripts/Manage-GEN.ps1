@@ -13,6 +13,46 @@ Function Manage-GEN {
     [hashtable] $Params = @{}
 
 
+
+    # параметры сертификатов
+    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-Pass\s*=\s*(?<Pass>[^\s]+)\s*==' },'First') )
+    {
+        $Params += @{
+            '-Pass' = $Matches.Pass
+        }
+    }
+
+    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-Algorithm\s*=\s*(?<Algorithm>SHA(1|256|384|512))\s*==' },'First') )
+    {
+        $Params += @{
+            '-SigAlg' = $Matches.Algorithm
+        }
+    }
+
+    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-notBefore\s*=\s*(?<notBefore>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\s*==' },'First') )
+    {
+        $Params += @{
+            '-notBefore' = $Matches.notBefore
+        }
+    }
+
+    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-notAfter\s*=\s*(?<notAfter>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\s*==' },'First') )
+    {
+        $Params += @{
+            '-notAfter' = $Matches.notAfter
+        }
+    }
+
+    if ( $ReGenerate )
+    {
+        $Params += @{
+            '-ReGenerate' = $ReGenerate
+        }
+    }
+
+
+
+
     # BaseName предустановки сертификатов
     if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-Base-Name\s*=\s*(?<BaseName>[-._a-z0-9]+)\s*==' },'First') )
     {
@@ -121,41 +161,62 @@ Function Manage-GEN {
 
 
 
-    # остальное
-    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-Pass\s*=\s*(?<Pass>[^\s]+)\s*==' },'First') )
+    # + Spc0-9 Names (Sign для +Special PFX (Gen-Spc0-9.pfx)) | доп 9 сертификатов
+    [System.Collections.Specialized.OrderedDictionary] $htGenCertSPC = @{}
+
+    [string] $sNum = ''
+
+    foreach ( $Line in $ListPresetsGlobal )
     {
-        $Params += @{
-            '-Pass' = $Matches.Pass
+        if ( $Line -match '^=\s*1\s*=\s*Gen-Cert-((?<Int>Int)|Spc)(?<sNum>\d)-Name\s*=\s*(?<Name>[- ._a-z0-9%()]*?)\s*(=\s*(sha)?(?<SigAlg>(1|256|384|512))?\s*)?==' )
+        {
+            $sNum  = $Matches.sNum
+
+            if ( $htGenCertSPC[$sNum].SpcName -and ( -not ( $htGenCertSPC[$sNum].IntSpcName -eq $null ))) { Continue }
+
+            if ( $Matches.Int )
+            {
+                $htGenCertSPC[$sNum] = @{
+                    SpcName    = $htGenCertSPC[$sNum].SpcName
+                    IntSpcName = $Matches.Name
+
+                    IntOK      = $true
+                    SpcOK      = $true
+                    subjIntSpc = ''
+                    subjSpc    = ''
+                    SigAlg     = $htGenCertSPC[$sNum].Hash
+                }
+            }
+            else
+            {
+                $htGenCertSPC[$sNum] = @{
+                    SpcName    = $Matches.Name
+                    IntSpcName = $htGenCertSPC[$sNum].IntSpcName
+                     
+                    IntOK      = $true
+                    SpcOK      = $true
+                    subjIntSpc = ''
+                    subjSpc    = ''
+                    SigAlg     = $(if ( $Matches.SigAlg ) { 'sha{0}' -f $Matches.SigAlg } else { '' })
+                }
+            }
         }
     }
 
-    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-Algorithm\s*=\s*(?<Algorithm>SHA(1|256|384|512))\s*==' },'First') )
+    [string[]] $aKeys = $htGenCertSPC.Keys
+
+    foreach ( $i in $aKeys )
+    {
+        if ( -not $htGenCertSPC[$i].SpcName ) { $htGenCertSPC.Remove($i) }
+    }
+
+    if ( $htGenCertSPC.Count )
     {
         $Params += @{
-            '-SigAlg' = $Matches.Algorithm
+            '-htGenCertSPC' = $htGenCertSPC
         }
     }
 
-    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-notBefore\s*=\s*(?<notBefore>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\s*==' },'First') )
-    {
-        $Params += @{
-            '-notBefore' = $Matches.notBefore
-        }
-    }
-
-    if ( $ListPresetsGlobal.Where({ $_ -match '^=\s*1\s*=\s*Gen-Cert-notAfter\s*=\s*(?<notAfter>\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\s*==' },'First') )
-    {
-        $Params += @{
-            '-notAfter' = $Matches.notAfter
-        }
-    }
-
-    if ( $ReGenerate )
-    {
-        $Params += @{
-            '-ReGenerate' = $ReGenerate
-        }
-    }
 
 
 

@@ -1,4 +1,4 @@
-﻿Script-Version = 0.0.1 ==
+﻿Script-Version = 0.0.4 ==
 
 = 1 = Gen-Cert-notAfter = 2100-01-01T00:00:01 ==
 = 1 = Gen-Cert-Base-Name = My ==

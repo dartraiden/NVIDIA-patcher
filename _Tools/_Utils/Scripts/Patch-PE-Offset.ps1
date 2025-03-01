@@ -232,6 +232,8 @@ Function Patch-PE-Offset ( [PSCustomObject] $FileData, [array] $aPatchOffset, [s
                         })
 
                         $FileData.Bytes = $FileData.Bytes + $bToHex
+
+                        $FixCount++
                     }
                     else
                     {

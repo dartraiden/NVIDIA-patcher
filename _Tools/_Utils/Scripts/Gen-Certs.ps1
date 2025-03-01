@@ -37,6 +37,9 @@ Function Gen-Certs {
         [string] $SpecName  # Sign for Special PFX (Root the same, общий)
        ,
         [Parameter(Mandatory = $false)]
+        [System.Collections.Specialized.OrderedDictionary] $htGenCertSPC = @{} # Sign+Int for +Special PFXs (Root the same, общий)
+       ,
+        [Parameter(Mandatory = $false)]
         [string] $Pass
        ,
         [Parameter(Mandatory = $false)]
@@ -161,6 +164,39 @@ Function Gen-Certs {
         [bool] $needSpecPFX = $false
     }
 
+    # + Spc0-9 Names (Sign для +Special PFX (Gen-Spc0-9.pfx)) | доп 9 сертификатов
+    [string[]] $aKeys = @()
+
+    if ( $htGenCertSPC.Count )
+    {
+        $aKeys = $htGenCertSPC.Keys
+
+        foreach ( $i in $aKeys )
+        {
+            if ( -not $htGenCertSPC[$i].SigAlg ) { $htGenCertSPC[$i].SigAlg = $SigAlg }
+
+            $htGenCertSPC[$i].SpcName = $htGenCertSPC[$i].SpcName -replace ('%sha%', $htGenCertSPC[$i].SigAlg)
+
+            # Int Spec (for Special PFX, Root the same, общий)
+            if ( $htGenCertSPC[$i].IntSpcName )
+            {
+                $htGenCertSPC[$i].IntSpcName = $htGenCertSPC[$i].IntSpcName -replace ('%sha%', $htGenCertSPC[$i].SigAlg)
+            }
+            else
+            {
+                $htGenCertSPC[$i].IntSpcName = '{0} {1} Spec Signing CA' -f $BaseName, $htGenCertSPC[$i].SigAlg
+            }
+        }
+
+        [bool] $needSpcPFXs = $true
+    }
+    else
+    {
+        [bool] $needSpcPFXs = $false
+    }
+
+
+
 
 
     # subj
@@ -182,6 +218,19 @@ Function Gen-Certs {
         [string] $subjSpec    = '/C={0}/O={1} PKI Service/OU=sign.pki.{2}.dn/CN={3}' -f $CntrName, $BaseName, $BaseNameLower, $SpecName
     }
 
+    if ( $needSpcPFXs )
+    {
+        $aKeys = $htGenCertSPC.Keys
+
+        foreach ( $i in $aKeys )
+        {
+            $htGenCertSPC[$i].subjIntSpc = '/C={0}/O={1} PKI Service/OU=svcs.pki.{2}.dn/CN={3}' -f $CntrName, $BaseName, $BaseNameLower, $htGenCertSPC[$i].IntSpcName
+            $htGenCertSPC[$i].subjSpc    = '/C={0}/O={1} PKI Service/OU=sign.pki.{2}.dn/CN={3}' -f $CntrName, $BaseName, $BaseNameLower, $htGenCertSPC[$i].SpcName
+        }
+    }
+
+
+
 
     # Check names
     [PSCustomObject] $pCheckState = [PSCustomObject]@{
@@ -199,7 +248,9 @@ Function Gen-Certs {
         SpecName = $true
     }
 
-    [string[]] $aCheckNames = $RootName
+    [string[]] $aCheckNames       = $RootName
+    [string[]] $aCheckIntSpcNames = $RootName
+    [string[]] $aCheckSpcNames    = $RootName
 
     try
     {
@@ -262,6 +313,31 @@ Function Gen-Certs {
             }
             else { $aCheckNames += $SpecName }
         }
+
+        # Для этих сертификатов разрешено иметь совпадения со всеми и между собой по Sign c Sign и Int с Int, 
+        # главное чтобы не сопадали любые их Sign c любыми их Int и не с Root
+        if ( $needSpcPFXs )
+        {
+            $aKeys = $htGenCertSPC.Keys
+
+            foreach ( $i in $aKeys )
+            {
+                $aCheckIntSpcNames = @($htGenCertSPC.GetEnumerator().Where({$_.Key -ne $i}).Value.IntSpcName + $RootName + $IntSignName + $IntSpecName)
+                $aCheckSpcNames    = @($htGenCertSPC.GetEnumerator().Where({$_.Key -ne $i}).Value.SpcName    + $RootName + $SignName    + $SpecName)
+
+                if ( $aCheckSpcNames -eq $htGenCertSPC[$i].IntSpcName )
+                {
+                    $htGenCertSPC[$i].IntOK = $false
+                    throw
+                }
+                
+                if ( $aCheckIntSpcNames -eq $htGenCertSPC[$i].SpcName )
+                {
+                    $htGenCertSPC[$i].SpcOK = $false
+                    throw
+                }
+            }
+        }
     }
     catch
     {
@@ -306,6 +382,7 @@ Function Gen-Certs {
         if ( $pCheckState.SignName ) { Write-Host $SignName -ForegroundColor White -NoNewline } else { Write-Host $SignName -ForegroundColor Yellow -NoNewline ; Write-Host '  ◄ Name already exists!' -ForegroundColor Red -NoNewline }
         Write-Host " | $SigAlg" -ForegroundColor DarkGray
 
+
         if ( $needSpecPFX )
         {
             Write-Host
@@ -318,10 +395,30 @@ Function Gen-Certs {
             Write-Host " | $SigAlg" -ForegroundColor DarkGray
         }
 
+
+        if ( $needSpcPFXs )
+        {
+            $aKeys = $htGenCertSPC.Keys
+
+            foreach ( $i in $aKeys )
+            {
+                Write-Host
+                Write-Host " [$NameThisFunction] (Spc$i) Int$i-Name: " -ForegroundColor DarkGray -NoNewline
+                if ( $htGenCertSPC[$i].IntOK ) { Write-Host $htGenCertSPC[$i].IntSpcName -ForegroundColor White -NoNewline } else { Write-Host $htGenCertSPC[$i].IntSpcName -ForegroundColor Yellow -NoNewline ; Write-Host '  ◄ Name match (Root or Signs)!' -ForegroundColor Red -NoNewline }
+                Write-Host " | $($htGenCertSPC[$i].SigAlg)" -ForegroundColor DarkGray
+
+                Write-Host " [$NameThisFunction]        Spc$i-Name: " -ForegroundColor DarkGray -NoNewline
+                if ( $htGenCertSPC[$i].SpcOK ) { Write-Host $htGenCertSPC[$i].SpcName -ForegroundColor White -NoNewline } else { Write-Host $htGenCertSPC[$i].SpcName -ForegroundColor Yellow -NoNewline ; Write-Host '  ◄ Name match (Root or Ints)!' -ForegroundColor Red -NoNewline }
+                Write-Host " | $($htGenCertSPC[$i].SigAlg)" -ForegroundColor DarkGray
+            }
+        }
+
         Return $false
     }
 
     $aCheckNames = @()
+    $aCheckIntSpcNames = @()
+    $aCheckSpcNames = @()
 
     Write-Host
     Write-Host " [$NameThisFunction]        Cntr-Name: " -ForegroundColor DarkGray -NoNewline
@@ -372,6 +469,24 @@ Function Gen-Certs {
         Write-Host " | $SigAlg" -ForegroundColor DarkGray
     }
 
+    if ( $needSpcPFXs )
+    {
+        $aKeys = $htGenCertSPC.Keys
+
+        foreach ( $i in $aKeys )
+        {
+            Write-Host
+            Write-Host " [$NameThisFunction] (Spc$i) Int$i-Name: " -ForegroundColor DarkGray -NoNewline
+            Write-Host $htGenCertSPC[$i].IntSpcName -ForegroundColor White -NoNewline
+            Write-Host " | $($htGenCertSPC[$i].SigAlg)" -ForegroundColor DarkGray
+
+            Write-Host " [$NameThisFunction]        Spc$i-Name: " -ForegroundColor DarkGray -NoNewline
+            Write-Host $htGenCertSPC[$i].SpcName -ForegroundColor White -NoNewline
+            Write-Host " | $($htGenCertSPC[$i].SigAlg)" -ForegroundColor DarkGray
+        }
+    }
+
+
 
 
     # Выбор: продолжать, или пропустить
@@ -411,7 +526,7 @@ Function Gen-Certs {
     [string] $outTempIntTsa1Crt = "$TempDir\Gen-TempIntTsa1.crt" ; [string] $IntTsa1Crt = ''
     [string] $outTempIntTsa2Crt = "$TempDir\Gen-TempIntTsa2.crt" ; [string] $IntTsa2Crt = ''
     [string] $outTempIntSignCrt = "$TempDir\Gen-TempIntSign.crt" ; [string] $IntSignCrt = ''
-    [string] $outTempIntSpecCrt = "$TempDir\Gen-TempIntSpec.crt" ; [string] $IntSpecCrt = ''
+    [string] $outTempIntSpecCrt = "$TempDir\Gen-TempIntSpec.crt" ; [string] $IntSpecCrt = '' ; [string] $IntSpcCrt = ''
     
     [string] $outTempTsa1Crt    = "$TempDir\Gen-TempTsa1.crt"
     [string] $outTempTsa2Crt    = "$TempDir\Gen-TempTsa2.crt"
@@ -424,10 +539,13 @@ Function Gen-Certs {
     [string] $outSignCrt   = "$SaveToFolder\Gen-Sign.crt"        ; [string] $SignCrt = ''
     [string] $outSignPFX   = "$SaveToFolder\Gen-Sign.pfx"
 
-    [string] $outSpecCrt   = "$SaveToFolder\Gen-Spec.crt"        ; [string] $SpecCrt = ''
+    [string] $outSpecCrt   = "$SaveToFolder\Gen-Spec.crt"        ; [string] $SpecCrt = '' ;    [string] $SpcCrt = ''
     [string] $outSpecPFX   = "$SaveToFolder\Gen-Spec.pfx"
 
     [string] $File = ''
+
+
+
 
 
     # для Проверки всех файлов в конце после создания или после ошибки при создании
@@ -440,6 +558,18 @@ Function Gen-Certs {
         [string[]] $aAllFiles = $outRootCrt, $outTsa1Crt, $outTsa2Crt, $outTSAkey, $outSignCrt, $outSignkey, $outSignPFX
     }
     
+    if ( $needSpcPFXs )
+    {
+        $aKeys = $htGenCertSPC.Keys
+
+        foreach ( $i in $aKeys )
+        {
+            $aAllFiles += "$SaveToFolder\Gen-Spc$i.crt","$SaveToFolder\Gen-Spc$i.pfx"
+        }
+    }
+
+
+
     [bool] $isExistCreatedCerts = $true
 
     # backup если существуют хотябы 4 главных, иначе половина уже про...на, можно не бэкапать
@@ -493,6 +623,22 @@ Function Gen-Certs {
                 Write-Host $([System.IO.Path]::GetFileName($outSpecPFX)) -ForegroundColor Green
             }
 
+            
+            foreach ( $i in [string[]](0..9) )
+            {
+                if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.crt") )
+                {
+                    Write-Host " [$NameThisFunction] " -ForegroundColor DarkGray -NoNewline
+                    Write-Host $([System.IO.Path]::GetFileName("$SaveToFolder\Gen-Spc$i.crt")) -ForegroundColor Green
+                }
+
+                if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.pfx") )
+                {
+                    Write-Host " [$NameThisFunction] " -ForegroundColor DarkGray -NoNewline
+                    Write-Host $([System.IO.Path]::GetFileName("$SaveToFolder\Gen-Spc$i.pfx")) -ForegroundColor Green
+                }
+            }
+
             Return $false
         }
         elseif ( [System.IO.File]::Exists($7z) )
@@ -508,6 +654,20 @@ Function Gen-Certs {
                     $AddFiles += '"{0}"' -f $File
                 }
             }
+
+            foreach ( $i in [string[]](0..9) )
+            {
+                if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.crt") )
+                {
+                    $AddFiles += '"{0}"' -f "$SaveToFolder\Gen-Spc$i.crt"
+                }
+
+                if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.pfx") )
+                {
+                    $AddFiles += '"{0}"' -f "$SaveToFolder\Gen-Spc$i.pfx"
+                }
+            }
+
 
             [string] $NameZIP   = 'Gen-Certs-Backup'
             [array] $aFilesZIP  = @()
@@ -535,6 +695,19 @@ Function Gen-Certs {
                     if ( [System.IO.File]::Exists($File) )
                     {
                         Remove-Item -LiteralPath $File -ErrorAction Continue
+                    }
+                }
+
+                foreach ( $i in [string[]](0..9) )
+                {
+                    if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.crt") )
+                    {
+                        Remove-Item -LiteralPath "$SaveToFolder\Gen-Spc$i.crt" -ErrorAction Continue
+                    }
+
+                    if ( [System.IO.File]::Exists("$SaveToFolder\Gen-Spc$i.pfx") )
+                    {
+                        Remove-Item -LiteralPath "$SaveToFolder\Gen-Spc$i.pfx" -ErrorAction Continue
                     }
                 }
             }
@@ -742,6 +915,39 @@ Function Gen-Certs {
 
 
 
+        if ( $needSpcPFXs )
+        {
+            # Gen IntSpc0-9.key
+            $aKeys = $htGenCertSPC.Keys
+
+            foreach ( $i in $aKeys )
+            {
+                Write-Host " [$NameThisFunction] Gen IntSpc$i.key" -ForegroundColor DarkGray -NoNewline
+
+                if ( $Pass )
+                {
+                    Write-Host " | $bits | aes256 | Pass > '$Pass'" -ForegroundColor DarkGray
+
+                    $aComm = @('-aes256', '-passout', ('pass:{0}' -f $Pass))
+                }
+                else
+                {
+                    Write-Host " | $bits | noPass | Pass > ''" -ForegroundColor DarkGray
+                }
+
+                $aErr = & $openssl genrsa $aComm -out "$TempDir\Gen-IntSpc$i.key" $bits 2>&1
+                if ( $aErr.Count ) { Write-Host ([string]::Join("`r`n", $aErr)) -ForegroundColor Red ; Return $false }
+            }
+            
+            # Gen Spc0-9.key  =  Gen-Sign.key | один key и Pass для Gen-Sign и Gen-Spec и Gen-Spc0-9
+        }
+
+
+
+
+
+
+
         # cnf
         [System.IO.File]::WriteAllText($cnf,$C,[System.Text.UTF8Encoding]::new($false))
 
@@ -883,6 +1089,45 @@ Function Gen-Certs {
         }
 
 
+        if ( $needSpcPFXs )
+        {
+            # Gen IntSpc0-9.key
+            $aKeys = $htGenCertSPC.Keys
+
+            foreach ( $i in $aKeys )
+            {
+                # Spc0-9 crt
+                Write-Host " [$NameThisFunction] Gen IntSpc$i Csr" -ForegroundColor DarkGray
+                if ( $Error.Count ) { $Error.Clear() }
+                $aComm = @(('-{0}' -f $htGenCertSPC[$i].SigAlg))
+                $IntCsr = $C | & $openssl req -new -config - -key "$TempDir\Gen-IntSpc$i.key" -passin pass:$Pass -passout pass:$Pass $aComm -extensions v3_int_cat -subj $htGenCertSPC[$i].subjIntSpc 2>$null
+                if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+
+                Write-Host " [$NameThisFunction] Gen IntSpc$i.crt | $($htGenCertSPC[$i].IntSpcName)" -ForegroundColor DarkGray
+                if ( $Error.Count ) { $Error.Clear() }
+                $IntCsr | & $openssl ca -config $cnf -keyfile $outTempRootkey -passin pass:$Pass -cert $outRootCrt -policy signing_policy -extensions v3_int_cat -in - -out "$TempDir\Gen-TempIntSpc$i.crt" -batch -md $htGenCertSPC[$i].SigAlg -notext 2>$null
+                if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+                if ( $Error[-1..-20] -like 'Signature ok' ) { Write-Host " [$NameThisFunction] Signature ok" -ForegroundColor DarkGreen } else { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+
+
+                Write-Host " [$NameThisFunction] Gen Spc$i Csr" -ForegroundColor DarkGray
+                if ( $Error.Count ) { $Error.Clear() }
+                $aComm = @(('-{0}' -f $htGenCertSPC[$i].SigAlg))
+                $SignCsr = $C | & $openssl req -new -config - -key $outSignkey -passin pass:$Pass -passout pass:$Pass $aComm -extensions v3_Sign -subj $htGenCertSPC[$i].subjSpc 2>$null
+                if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+
+
+                Write-Host " [$NameThisFunction] Gen-Spc$i.crt    | $($htGenCertSPC[$i].SpcName)" -ForegroundColor DarkGray
+                if ( $Error.Count ) { $Error.Clear() }
+                $SignCsr | & $openssl ca -config $cnf -keyfile "$TempDir\Gen-IntSpc$i.key" -passin pass:$Pass -cert "$TempDir\Gen-TempIntSpc$i.crt" -policy signing_policy -extensions v3_Sign -in - -out "$TempDir\Gen-TempSpc$i.crt" -batch -md $htGenCertSPC[$i].SigAlg -notext 2>$null
+                if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+                if ( $Error[-1..-20] -like 'Signature ok' ) { Write-Host " [$NameThisFunction] Signature ok" -ForegroundColor DarkGreen } else { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+            }
+        }
+
+
+
+
 
 
         Write-Host
@@ -919,6 +1164,25 @@ Function Gen-Certs {
             if ( $Error.Count ) { $Error.Clear() }
             ($SpecCrt+$RootCrt+$IntSpecCrt) | & $openssl pkcs12 -export -inkey $outSignkey -out $outSpecPFX -passin pass:$Pass -passout pass:$Pass
             if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+        }
+
+        
+        # Spc0-9  (Roor.crt и Sign.key тот же)
+        if ( $needSpcPFXs )
+        {
+            $aKeys = $htGenCertSPC.Keys
+
+            foreach ( $i in $aKeys )
+            {
+                $IntSpcCrt = Get-Content -Path "$TempDir\Gen-TempIntSpc$i.crt" -Encoding UTF8 -Delimiter '\r\n' -ErrorAction Stop
+                $SpcCrt    = Get-Content -Path "$TempDir\Gen-TempSpc$i.crt"    -Encoding UTF8 -Delimiter '\r\n' -ErrorAction Stop
+
+                [System.IO.File]::WriteAllText("$SaveToFolder\Gen-Spc$i.crt",($SpcCrt+$IntSpcCrt),[System.Text.UTF8Encoding]::new($false))
+
+                if ( $Error.Count ) { $Error.Clear() }
+                ($SpcCrt+$RootCrt+$IntSpcCrt) | & $openssl pkcs12 -export -inkey $outSignkey -out "$SaveToFolder\Gen-Spc$i.pfx" -passin pass:$Pass -passout pass:$Pass
+                if ( $Global:LastExitCode ) { Write-Host  "$([string]::Join("`r`n", $Error[-1..-20]))" -ForegroundColor Red ; Return $false }
+            }
         }
     }
     catch

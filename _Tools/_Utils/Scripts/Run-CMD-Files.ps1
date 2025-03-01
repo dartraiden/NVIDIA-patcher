@@ -67,6 +67,7 @@ Function Run-CMD-Files {
                     }
                     else
                     {
+                        Write-host
                         Write-host '    cmd: Run Error: ' -ForegroundColor DarkGray -NoNewline
                         Write-host $CMD -ForegroundColor Red
 
@@ -133,6 +134,7 @@ Function Run-CMD-Files {
                     }
                     else
                     {
+                        Write-host
                         Write-host '    cmd: Final Run Error: ' -ForegroundColor DarkGray -NoNewline
                         Write-host $CMD -ForegroundColor Red
 

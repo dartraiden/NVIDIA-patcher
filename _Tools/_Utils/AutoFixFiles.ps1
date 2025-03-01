@@ -38,16 +38,7 @@ if ( $isConsole )
     }
 
     [Console]::OutputEncoding = [System.Text.Encoding]::GetEncoding('utf-8')
-
-    # Отключение lagacy console mode, если было включено батником перед стартом (восстанавливает как было до настройки)
-    # Метод для отключения запуска UWP Terminal вместо консоли PS, при запуске без админ прав:
-    try { if ( $backup = [Microsoft.Win32.Registry]::GetValue('HKEY_CURRENT_USER\Console','ForceV2_backup',$null) ) {
-        if ( $backup -eq 1 )
-        {
-            [Microsoft.Win32.Registry]::SetValue('HKEY_CURRENT_USER\Console','ForceV2', 1,'Dword')
-            [Microsoft.Win32.Registry]::CurrentUser.OpenSubKey('Console','ReadWriteSubTree').DeleteValue('ForceV2_backup') > $null
-        }
-    }} catch {}
+    #[Console]::InputEncoding  = [System.Text.Encoding]::GetEncoding('utf-8')
 }
 
 
@@ -196,6 +187,7 @@ Set-Variable -Name dUnPackOrFolderGlobal -Value @{} -Option AllScope -Force
 
 Set-Variable -Name BoolErrorGlobal          -Value $false -Option AllScope -Force
 Set-Variable -Name aDataToSignFilesGlobal   -Value @() -Option AllScope -Force
+Set-Variable -Name hDataCertAlgsGlobal      -Value ([hashtable] @{}) -Option AllScope -Force
 Set-Variable -Name aDataRemoveSignGlobal    -Value @() -Option AllScope -Force
 Set-Variable -Name aDataNullFilesGlobal     -Value @() -Option AllScope -Force
 Set-Variable -Name aDataCopyFilesGlobal     -Value @() -Option AllScope -Force

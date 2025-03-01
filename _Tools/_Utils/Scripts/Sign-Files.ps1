@@ -1,5 +1,5 @@
 ﻿
-#
+# v2
 Function Sign-Files {
 
     [CmdletBinding( SupportsShouldProcess = $false )]
@@ -17,7 +17,7 @@ Function Sign-Files {
         [string] $Openssl = $Openssl # need v3.1.1
        ,
         [Parameter(Mandatory = $false)]
-        [string] $osslsigncode = $osslsigncode # from v2.8-dev (от 18.12.2023)
+        [string] $osslsigncode = $osslsigncode # from v2.8-dev (от 23.01.2024)
        ,
         [Parameter(Mandatory = $false)]
         [string] $signtool = $signtool
@@ -174,6 +174,12 @@ Function Sign-Files {
     [string] $Alg       = ''
     [string] $SigAlg    = ''
     [string] $GenSigAlg = ''
+
+    [string] $AlgForce  = '' # принудительно указаный алгоритм sha1/256/384/512
+       [int] $AddIndex  = 0  # для указания индекса метки или добавления новой подписи при = 1
+    [string] $AddShow   = ''
+      [bool] $addSign   = $false # нужно чтобы работало когда добаление только метки на 0 индекс, и сравнивать с $AddIndex не вариант при 0
+
       [bool] $CurTime   = $false
     [string] $ST_S      = '' # sign
     [string] $ST_T      = '' # timestamp
@@ -256,43 +262,42 @@ Function Sign-Files {
     }
 
 
+    # вычислить максимальную длину имен файлов сертификатов для выравнивания отступом при выводе в меню для PFX: и Sign:
+    [int] $iIndentSize = 0
+
+    foreach ( $f in $aDataToSignFilesGlobal.FileCert )
+    {
+        $iIndentSize = [math]::Max($f.Length, $iIndentSize)
+    }
+
+
 
     [System.Collections.Generic.List[PSObject]] $aStages = @()
 
-    # [1]: Этап: Signing non-CAT files (with PFX files)
+    # [1]: Signing non-CAT files (first Signs)
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'PFX'
         FileType = 'non-CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -like '*.pfx' -and $_.SignFile -notmatch '\.ca(t|\?)$' }))
+        aData    = @($aDataToSignFilesGlobal.Where({( -not $_.addSign ) -and ( -not $_.isCAT )}))
     })
 
-    # [2]: Этап: Signing non-CAT files (with Gen-Sign.crt)
+    # [1]: Signing non-CAT files (+ Add Signs)
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'Gen-Sign.crt'
         FileType = 'non-CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -eq 'Gen-Sign.crt' -and $_.SignFile -notmatch '\.ca(t|\?)$' }))
+        aData    = @($aDataToSignFilesGlobal.Where({(      $_.addSign ) -and ( -not $_.isCAT )}))
     })
 
-    # [3]: Этап: Signing CAT files (with Gen-Sign.crt)
+    # [2]: Signing CAT files
     $aStages.Add( [PSCustomObject] @{
-        CertType = 'Gen-Sign.crt'
         FileType = 'CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -eq 'Gen-Sign.crt' -and $_.SignFile -like '*.cat' }))
+        aData    = @($aDataToSignFilesGlobal.Where({ $_.isCAT }))
     })
 
-    # [4]: Этап: Signing CAT files (with PFX files)
-    $aStages.Add( [PSCustomObject] @{
-        CertType = 'PFX'
-        FileType = 'CAT'
-        aData    = @($aDataToSignFilesGlobal.Where({ $_.FileCert -like '*.pfx' -and $_.SignFile -like '*.cat' }))
-    })
 
-    # 4 Этапа
+    # 2 Этапа
     foreach ( $Stage in $aStages )
     {
         if ( $aWarningsGlobal.Count ) { break }
 
-        $CertType = $Stage.CertType
         $FileType = $Stage.FileType
 
         $N2 = 0
@@ -301,6 +306,10 @@ Function Sign-Files {
         # Файлы
         foreach ( $Data in $Stage.aData )
         {
+            if ( $aWarningsGlobal.Count ) { break }
+
+            $CertType = $Data.CertType
+
             $N++
 
             if ( -not $N2 )
@@ -317,6 +326,10 @@ Function Sign-Files {
             $Sign    = $Data.SignFile
             $CurTime = $Data.CurTime
             $OS      = $Data.OS
+
+            $AlgForce  = $Data.AlgForce  # принудительно указаный алгоритм sha1/256/384/512 (кроме CAT)
+            $AddIndex  = $Data.AddIndex  # для указания индекса метки или добавления новой подписи при = 1 (кроме CAT)
+            $addSign   = $Data.addSign   # для указания добавления подписи или метки на 0 индекс
 
             $FileCross = ''
             $UseCross  = ''
@@ -435,18 +448,23 @@ Function Sign-Files {
             }
 
 
+            # замена алгоритма подписи на указанный
+            if ( $AlgForce )
+            {
+                $SigAlg = $AlgForce
+            }
 
             # Алгоритм подписи исходя из сигнатуры сертификата для внешнего URL
             if ( $SigAlg -match '^(md5|sha1)$' )
             {
-                $Alg = 'SHA1'
+                $Alg = 'SHA1'   # алгоритм метки (реализовал только 2 варианта для метки)
 
                 $TsaCrt = "$UseCertsFolder\Gen-TSA1.crt"
                 $TsaKey = "$UseCertsFolder\Gen-TSA.key"
             }
             else
             {
-                $Alg = 'SHA256'
+                $Alg = 'SHA256' # алгоритм метки (реализовал только 2 варианта для метки)
 
                 $TsaCrt = "$UseCertsFolder\Gen-TSA2.crt"
                 $TsaKey = "$UseCertsFolder\Gen-TSA.key"
@@ -454,7 +472,7 @@ Function Sign-Files {
 
             if ( $Data.TimeStamp -like 'http*' )
             {
-                $TimeStamp = [datetime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss')
+                $TimeStamp = [datetime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss') # [datetime]::UtcNow.ToString('s')
                 $URL       = $Data.TimeStamp
                 $Time      = ([DateTimeOffset][datetime]::Parse($TimeStamp)).ToUnixTimeSeconds()
             }
@@ -484,7 +502,7 @@ Function Sign-Files {
 
                 if ( $CurTime )
                 {
-                    $TimeStamp = [datetime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss')
+                    $TimeStamp = [datetime]::UtcNow.ToString('yyyy-MM-ddTHH:mm:ss') # [datetime]::UtcNow.ToString('s')
                 }
                 else
                 {
@@ -493,7 +511,7 @@ Function Sign-Files {
 
                 if ( -not $BoolUseBuiltInTsaGlobal )
                 {
-                    $URL = "http://localhost/TS-$Alg/$TimeStamp"
+                    $URL = "http://localhost:80/TS-$Alg/$TimeStamp"
                 }
                 else
                 {
@@ -575,6 +593,38 @@ Function Sign-Files {
             Write-host 'Name pattern' -ForegroundColor White
 
 
+            # если добавление подписи или указание индекса когда один timestamp
+            if ( $addSign )
+            {
+                # если только timestamp
+                if ( -not $ST_S )
+                {
+                    Write-host '   Sign: ' -ForegroundColor DarkGray -NoNewline
+                    Write-host 'Only timestamp on index: ' -ForegroundColor DarkMagenta -NoNewline
+                    
+                    if ( $AddIndex -ge 2 )
+                    {
+                        Write-host $AddIndex -ForegroundColor Blue
+                    }
+                    elseif ( $AddIndex -eq 1 )
+                    {
+                        Write-host $AddIndex -ForegroundColor Blue
+                    }
+                    else
+                    {
+                        Write-host $AddIndex -ForegroundColor DarkGray
+                    }
+                }
+                else
+                {
+                    Write-host '   Sign: ' -ForegroundColor DarkGray -NoNewline
+                    Write-host 'Adding sign index: ' -ForegroundColor DarkMagenta -NoNewline
+                    Write-host $AddIndex -ForegroundColor Blue
+                }
+            }
+
+
+
 
             $N3 = 0
 
@@ -585,6 +635,7 @@ Function Sign-Files {
 
                 if ( $ReGenerateCAT -or ( -not $aFilesCAT.Count ))
                 {
+                    # шаблон поиска указанного файла .cat
                     $PathPattern = "$Folder\$Sign"
                     $Path        = [System.IO.Path]::GetDirectoryName($PathPattern)
 
@@ -600,6 +651,7 @@ Function Sign-Files {
                             Write-host '   Sign: reGenerate CAT | ' -ForegroundColor DarkGray -NoNewline
                             Write-host 'All CAT files will be signed!' -ForegroundColor Magenta
 
+                            # шаблон поиска любых файлов .cat, которые могут появиться после Inf2Cat
                             $PathPattern = "$Path\*.cat"
                         }
                         
@@ -786,9 +838,11 @@ Function Sign-Files {
                     }
                     else
                     {
+                        if ( $addSign ) { $AddShow = '+' } else { $AddShow = ' ' }
+
                         $dAction[$ShowFileOrig] = [PSCustomObject]@{
                             Result = $false
-                            Action = '[Sign: {0} | {1} | {2}]' -f $CertFile, $Alg, $TimeStamp
+                            Action = "[Sign: {0,-$iIndentSize} |$AddShow {1,-6} | {2} {3,-6} ind: $AddIndex]" -f $CertFile, $SigAlg.ToLower(), $TimeStamp, $Alg
                             Color  = 'Red'
                         }
 
@@ -813,8 +867,9 @@ Function Sign-Files {
                 }
 
                 $aComm = @()
-                if ( $Pass ) { $aComm += @( '-pass', $Pass ) }
+                if ( $Pass     ) { $aComm += @( '-pass', $Pass )         }
                 if ( $UseCross ) { $aComm += @( '-ac', """$UseCross""" ) }
+                if ( $addSign  ) { $aComm += @( '-nest' )                }
 
                 Write-host
 
@@ -825,7 +880,7 @@ Function Sign-Files {
 
                     if ( -not $BoolUseBuiltInTsaGlobal )
                     {
-                        $URL = "http://localhost/TS-$Alg/$TimeStamp"
+                        $URL = "http://localhost:80/TS-$Alg/$TimeStamp"
                     }
                     else
                     {
@@ -867,9 +922,13 @@ Function Sign-Files {
                     Write-host '   Sign: ' -ForegroundColor DarkGray -NoNewline
                     Write-host 'osslsigncode: [Signing]:' -ForegroundColor DarkCyan
 
-                    if ( $FileType -eq 'non-CAT' ) { & $signtool remove /s "$Path\$TempFile" *> $null }
+                    # если не добавление подписи, удалить все, на всякий чтобы не osslsigncode удалял, а signtool
+                    if ( -not $addSign )
+                    {
+                        if ( $FileType -eq 'non-CAT' ) { & $signtool remove /s "$Path\$TempFile" *> $null }
+                    }
 
-                    & $osslsigncode sign -spc "$ClientInt" -key "$ClientKEY" -nolegacy $aComm -h ($SigAlg.ToLower()) -time $Time -verbose -in "$Path\$TempFile" -out "$FilePath"
+                    & $osslsigncode sign -spc "$ClientInt" -key "$ClientKEY" -nolegacy $aComm -h ($SigAlg.ToLower()) -time $Time -in "$Path\$TempFile" -out "$FilePath"
                 }
                 else
                 {
@@ -916,11 +975,39 @@ Function Sign-Files {
 
                             if ( $Alg -eq 'SHA1' )
                             {
-                                & $signtool timestamp /v /t "$URL" "$FilePath"
+                                if ( $addSign )
+                                {
+                                    if ( $AddIndex ) 
+                                    {
+                                        # signtool метка с указанием индекса /tp работает только с /tr и /td (для SHA256+ для RFC3161) 
+                                    
+                                        # Так будет ошибка с информацией, пусть останеться для инфы тем кто будет использовать:
+                                        & $signtool timestamp /tp $AddIndex /v /t "$URL" "$FilePath"
+                                    
+                                        # так работает, но метка выходит не по стандарту с сервера для меток SHA256, что по сути будет как SHA256, лучше делать такое через osslsigncode
+                                        #& $signtool timestamp /tp $AddIndex /v /tr "$URL" /td $Alg "$FilePath"
+                                    }
+                                    else # Index = 0
+                                    {
+                                        # Не удаляет другие подписи при метке на 0 индекс без указания индекса
+                                        & $signtool timestamp /v /t "$URL" "$FilePath"
+                                    }
+                                }
+                                else
+                                {
+                                    & $signtool timestamp /v /t "$URL" "$FilePath"
+                                }
                             }
                             else  # SHA256
                             {
-                                & $signtool timestamp /v /tr "$URL" /td $Alg "$FilePath"
+                                if ( $addSign )
+                                {
+                                    & $signtool timestamp /tp $AddIndex /v /tr "$URL" /td $Alg "$FilePath"
+                                }
+                                else
+                                {
+                                    & $signtool timestamp /v /tr "$URL" /td $Alg "$FilePath"
+                                }
                             }
 
                             if ( -not $Global:LastExitCode )
@@ -961,9 +1048,16 @@ Function Sign-Files {
                         
                             # UTC to Local for osslsigncode built-in TSA (The program converts the time to UTC)
                             # 60 UnixTimeSeconds = 1 мин | 3600 UnixTimeSeconds = 1 час | 10800 = 3 часа (в 2012, 2013, 2014 в РФ было +4 часа разница от GMT, в разные годы по разному),
-                            $Time += (60 * ([DateTimeOffset][datetime]::Parse($TimeStamp)).Offset.TotalMinutes)  # += количество минут разницы от GMT на время подписи $TimeStamp
+                            $Time += (60 * ([DateTimeOffset][datetime]::Parse($TimeStamp)).Offset.TotalMinutes)  # += количество минут разницы от GMT на время подписи $TimeStamp (данное конвертирование учитывает разницу GMT для любого года)
 
-                            & $osslsigncode add -h ($Alg.ToLower()) -TSA-certs $TsaCrt -TSA-key $TsaKey -TSA-time $Time -verbose -in "$Path\$TempFile" -out "$FilePath"
+                            if ( $addSign )
+                            {
+                                & $osslsigncode add -h ($Alg.ToLower()) -TSA-certs $TsaCrt -TSA-key $TsaKey -TSA-time $Time -in "$Path\$TempFile" -out "$FilePath" -index $AddIndex
+                            }
+                            else
+                            {
+                                & $osslsigncode add -h ($Alg.ToLower()) -TSA-certs $TsaCrt -TSA-key $TsaKey -TSA-time $Time -in "$Path\$TempFile" -out "$FilePath"
+                            }
 
                             if ( [System.IO.File]::Exists($FilePath) )
                             {
@@ -1027,17 +1121,19 @@ Function Sign-Files {
                         Write-host ' | ' -ForegroundColor DarkGray -NoNewline
                         Write-host '[All Ok]' -ForegroundColor Green
 
-                        $ST_SHOW = $TimeStamp
+                        $ST_SHOW = "$TimeStamp {0,-6}" -f $Alg
 
                         if ( $Data.ST )
                         {
                             if     ( $Data.ST -eq 'S' ) { $ST_SHOW = 'only Sign' }
-                            elseif ( $Data.ST -eq 'T' ) { $ST_SHOW = "$TimeStamp (only TimeStamp)" }
+                            elseif ( $Data.ST -eq 'T' ) { $ST_SHOW = "$TimeStamp {0,-6} (only TimeStamp, ind: $AddIndex)" -f $Alg }
                         }
+
+                        if ( $addSign ) { $AddShow = '+' } else { $AddShow = ' ' }
 
                         $dAction[$ShowFileOrig] = [PSCustomObject]@{
                             Result = $true
-                            Action = '[Sign: {0} | {1} | {2}]' -f $CertFile, $Alg, $ST_SHOW
+                            Action = "[Sign: {0,-$iIndentSize} |$AddShow {1,-6} | {2}]" -f $CertFile, $SigAlg.ToLower(), $ST_SHOW
                             Color  = 'White'
                         }
                     }
@@ -1110,9 +1206,11 @@ Function Sign-Files {
                         Write-host ' | ' -ForegroundColor DarkGray -NoNewline
                         Write-host '[pack Ok]' -ForegroundColor Green
 
+                        if ( $addSign ) { $AddShow = '+' } else { $AddShow = ' ' }
+
                         $dAction[$ShowFileOrig] = [PSCustomObject]@{
                             Result = $true
-                            Action = '[Sign: {0} | {1} | {2}] [pack Ok]' -f $CertFile, $Alg, $ST_SHOW
+                            Action = "[Sign: {0,-$iIndentSize} |$AddShow {1,-6} | {2}] [pack Ok]" -f $CertFile, $SigAlg.ToLower(), $ST_SHOW
                             Color  = 'White'
                         }
                     }
@@ -1232,17 +1330,12 @@ Function Sign-Files {
 
     if ( $aActionsGlobal.Count )
     {
-        [int] $LengthMin = 10000
-        [int] $LengthMax = 0
-        [string] $s = ''
+        $iIndentSize = 0
 
-        foreach ( $s in $aActionsGlobal.Keys )
+        foreach ( $F in $aActionsGlobal.Keys )
         {
-            if ( $s.Length -ge $LengthMax ) { $LengthMax = $s.Length }
-            if ( $LengthMin -ge $s.Length ) { $LengthMin = $s.Length }
+            $iIndentSize = [math]::Max($F.Length, $iIndentSize)
         }
-
-        $LengthMax = [math]::Min($LengthMax, (10 + $LengthMin)) # не больше 10 пробелов для выравнивания сдвигом вправо
 
         foreach ( $F in $aActionsGlobal.Keys )
         {
@@ -1254,7 +1347,7 @@ Function Sign-Files {
             {
                 Write-host $true -ForegroundColor DarkGreen -NoNewline
                 Write-host '  | ' -ForegroundColor DarkGray -NoNewline
-                Write-host ("{0,-$LengthMax}" -f $F) -ForegroundColor Green -NoNewline
+                Write-host ("{0,-$iIndentSize}" -f $F) -ForegroundColor Green -NoNewline
                 Write-host ' | ' -ForegroundColor DarkGray -NoNewline
                 Write-host $aActionsGlobal[$N-1].$F.Action -ForegroundColor $aActionsGlobal[$N-1].$F.Color
             }
@@ -1262,7 +1355,7 @@ Function Sign-Files {
             {
                 Write-host $false -ForegroundColor Red -NoNewline
                 Write-host ' | ' -ForegroundColor DarkGray -NoNewline
-                Write-host ("{0,-$LengthMax}" -f $F) -ForegroundColor Red -NoNewline
+                Write-host ("{0,-$iIndentSize}" -f $F) -ForegroundColor Red -NoNewline
                 Write-host ' | ' -ForegroundColor DarkGray -NoNewline
                 Write-Host $aActionsGlobal[$N-1].$F.Action -ForegroundColor Red
             }
@@ -1279,6 +1372,4 @@ Function Sign-Files {
 
     Get-Pause
 }
-
-
 

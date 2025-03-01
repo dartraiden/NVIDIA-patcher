@@ -7,7 +7,7 @@ Function Check-Local-Server {
     [OutputType([bool])]
     param (
         [Parameter(Position = 0)][string] $Url  # Адрес страницы, которую требуется загрузить
-       ,[Parameter()][int] $WaitMS = 600
+       ,[Parameter()][int] $WaitMS = 5000
     )
 
     # Подгрузка класса и создание HttpClient Global (не надо диспозить HttpClient в коде)
@@ -63,4 +63,5 @@ Function Check-Local-Server {
 
 <#
 Check-Local-Server -Url 'http://localhost/TS-SHA1'
+Check-Local-Server -Url 'http://localhost:80/TS-SHA1'
 #>

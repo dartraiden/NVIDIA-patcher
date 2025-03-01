@@ -509,8 +509,8 @@ namespace TimeStamp
                     [TimeStamp.Program]::StartResponder($Tsa2Crt, $TsaKey, $Alg2, $true)
                 }
 
-                $Online1 = Check-Local-Server -Url "http://localhost/TS-$Alg1"
-                $Online2 = Check-Local-Server -Url "http://localhost/TS-$Alg2"
+                $Online1 = Check-Local-Server -Url "http://localhost:80/TS-$Alg1"
+                $Online2 = Check-Local-Server -Url "http://localhost:80/TS-$Alg2"
             }
             else
             {
@@ -523,35 +523,37 @@ namespace TimeStamp
             Write-Host '  TSA1 server: ' -ForegroundColor DarkGray -NoNewline
             Write-Host '● ' -ForegroundColor Green -NoNewline
             Write-Host '| ' -ForegroundColor DarkGray -NoNewline
-            Write-Host "http://localhost/TS-$Alg1   " -ForegroundColor Blue -NoNewline
+            Write-Host "http://localhost:80/TS-$Alg1   " -ForegroundColor Blue -NoNewline
             Write-Host '/ ' -ForegroundColor DarkGray -NoNewline
-            Write-Host "http://localhost/TS-$Alg1/yyyy-MM-ddTHH:mm:ss" -ForegroundColor Blue -NoNewline
+            Write-Host "http://localhost:80/TS-$Alg1/yyyy-MM-ddTHH:mm:ss" -ForegroundColor Blue -NoNewline
 
             if ( $BoolUseBuiltInTsaGlobal )
             {
                 Write-Host '   | ' -ForegroundColor DarkGray -NoNewline
-                Write-Host 'Use Built-In TSA' -ForegroundColor Blue
+                Write-Host 'Use Built-In TSA' -ForegroundColor Magenta 
             }
             else
             {
-                Write-Host '   | Use Local server' -ForegroundColor DarkGray
+                Write-Host '   ◄ ' -ForegroundColor DarkGray -NoNewline
+                Write-Host 'Use Local server' -ForegroundColor DarkBlue
             }
 
             Write-Host '  TSA2 server: ' -ForegroundColor DarkGray -NoNewline
             Write-Host '● ' -ForegroundColor Green -NoNewline
             Write-Host '| ' -ForegroundColor DarkGray -NoNewline
-            Write-Host "http://localhost/TS-$Alg2 " -ForegroundColor Blue -NoNewline
+            Write-Host "http://localhost:80/TS-$Alg2 " -ForegroundColor Blue -NoNewline
             Write-Host '/ ' -ForegroundColor DarkGray -NoNewline
-            Write-Host "http://localhost/TS-$Alg2/yyyy-MM-ddTHH:mm:ss" -ForegroundColor Blue -NoNewline
+            Write-Host "http://localhost:80/TS-$Alg2/yyyy-MM-ddTHH:mm:ss" -ForegroundColor Blue -NoNewline
 
             if ( $BoolUseBuiltInTsaGlobal )
             {
                 Write-Host ' | ' -ForegroundColor DarkGray -NoNewline
-                Write-Host 'Use Built-In TSA' -ForegroundColor Blue
+                Write-Host 'Use Built-In TSA' -ForegroundColor Magenta
             }
             else
             {
-                Write-Host ' | Use Local server' -ForegroundColor DarkGray
+                Write-Host ' ◄ ' -ForegroundColor DarkGray -NoNewline
+                Write-Host 'Use Local server' -ForegroundColor DarkBlue
             }
 
             # Сохранение Hash подключенного сертификата
@@ -569,7 +571,7 @@ namespace TimeStamp
             {
                 Write-Host '[Not active]' -ForegroundColor DarkGray -NoNewline
                 Write-Host '      | ' -ForegroundColor DarkGray -NoNewline
-                Write-Host 'Use Built-In TSA' -ForegroundColor Blue
+                Write-Host 'Use Built-In TSA' -ForegroundColor Magenta
 
                 # Сохранение Hash используемого сертификата
                 $PrintTSAGlobal = [PSCustomObject]@{ print1 = $print1 ; print2 = $print2 ; Alg1 = $Alg1 ; Alg2 = $Alg2 ; Started = $false }

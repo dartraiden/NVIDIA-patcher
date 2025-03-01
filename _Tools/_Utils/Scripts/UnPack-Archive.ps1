@@ -48,7 +48,7 @@ Function UnPack-Archive {
     # UnPack or Folder
     if ( $ArchiveData.File )
     {
-        if ( $ArchiveData.getName )
+        if ( $ArchiveData.packName )
         {
             if ( $ArchiveData.UnPack )
             {

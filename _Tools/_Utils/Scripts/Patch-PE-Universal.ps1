@@ -29,7 +29,7 @@ Function Patch-PE-Universal ( [PSCustomObject] $FileData, [array] $aPatchUnivers
       [uint64] $showHex      = 0
        [int64] $foundCount   = 0
        [int64] $toHexCount   = 0
-       [int64] $fromHexCount = 0
+      [double] $fromHexCount = 0 # Число двойной точности с плавающей запятой, чтобы не округляло не целые числа
 
        [int64] $maxMatches  = 0  # Макс совпадений
        [int64] $needMatches = 0  # Нужные совпадения
@@ -109,9 +109,10 @@ Function Patch-PE-Universal ( [PSCustomObject] $FileData, [array] $aPatchUnivers
                 break
             }
 
-            $fromHex = ($uFromHex -replace '\s','' -replace '.*?\[\[(([?0-9a-f]{2})+)\]\].*','$1' -replace '([?0-9a-f]{2})',' $1').ToLower().TrimStart()
+            $fromHex = ($uFromHex -replace '\s','' -replace '.*?\[\[(([?0-9a-f]{2}\|?)+)\]\].*','$1' -replace '([?0-9a-f]{2})',' $1').ToLower().TrimStart()  # для поддержки групп в [[00 11|22 33|44 55]]
 
-            if ( $fromHex -notmatch '^(\s*[?0-9a-f]{2})+\s*$' )
+
+            if ( $fromHex -notmatch '^(\s*[?0-9a-f]{2}\|?)+\s*$' )   # для поддержки групп в [[00 11|22 33|44 55]]
             {
                 Write-Host "  Patch: Full pattern: $uFromHex" -ForegroundColor Red
                 Write-Host "  Patch:     from Hex: $fromHex" -ForegroundColor Red
@@ -125,9 +126,13 @@ Function Patch-PE-Universal ( [PSCustomObject] $FileData, [array] $aPatchUnivers
                 break
             }
             
-            $fromHexCount = ($fromHex -replace '\s','').Length / 2
-            $toHexCount   = ($toHex   -replace '\s','').Length / 2
-            $toHex        = ($toHex   -replace '\s','' -replace '([0-9a-f]{2})',' $1').ToLower().TrimStart()
+            try
+            {
+                $fromHexCount = ($fromHex -replace '[\s|]','').Length / 2 / @(($fromHex -replace '\s','').Split('|')).Count # для поддержки групп в [[00 11|22 33|44 55]]
+                $toHexCount   = ($toHex   -replace '\s','').Length / 2
+                $toHex        = ($toHex   -replace '\s','' -replace '([0-9a-f]{2})',' $1').ToLower().TrimStart()
+            }
+            catch { $fromHexCount = 7777; $toHexCount = 9999 }
 
             if ( $fromHexCount -ne $toHexCount )
             {
@@ -145,8 +150,8 @@ Function Patch-PE-Universal ( [PSCustomObject] $FileData, [array] $aPatchUnivers
             }
 
 
-            # Также искать и нужное значение после изменения
-            $uFromHex = $uFromHex -replace '\[\[((\s*[?0-9a-f]{2})+\s*)\]\]',"(?<G>(`$1|$toHex))" -replace '\?\?','[\s\S]' -replace '\s','' -replace '([0-9a-f]{2})','\x$1'
+            # Также искать и нужное значение, может быть уже изменено
+            $uFromHex = $uFromHex -replace '\[\[((\s*[?0-9a-f]{2}(\s*\|)?)+\s*)\]\]',"(?<G>(`$1|$toHex))"  -replace '\?\?','[\s\S]' -replace '\s','' -replace '(?<=^|\(|[^{,][^{,])([0-9a-f]{2})(?=$|\)|[^,}][^,}])','\x$1'
 
             try { $null = [regex]::new($uFromHex) }
             catch
