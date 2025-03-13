@@ -9,26 +9,27 @@
 = 1 = Gen-Cert-IntS-Name = My Code Signing CA ==
 = 1 = Gen-Cert-Sign-Name = My ==
 = 1 = Gen-Cert-IntP-Name = My Spec Signing CA ==
+= 1 = Gen-Cert-Spec-Name = NVIDIA Corporation ==
 = 1 = UnPack-or-Folder = *international*.exe == == "Display.Driver" ==
 = 1 = Gen-Cert-Pass = Passw0rd ==
 
-= 1 = PFX-Cert = current_cert.pfx == nv1d1aRules == 2012-12-31T21:00:01 == auto ==
+= 1 = PFX-Cert = Gen-Spec.pfx == Passw0rd == http://timestamp.digicert.com == ==
 
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvd3dum.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvd3dum_cfg.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvd3dumx.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvd3dumx_cfg.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvoglv32.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvoglv64.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvvkscv64.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvwgf2um.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvwgf2um_cfg.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvwgf2umx.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvwgf2umx_cfg.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvencodeapi.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvencodeapi64.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvfbc.dl? == ST ==
-= 1 = PFX-To-Sign-File = current_cert.pfx == \Edit\%\Display.Driver\nvfbc64.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvd3dum.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvd3dum_cfg.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvd3dumx.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvd3dumx_cfg.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvoglv32.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvoglv64.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvvkscv64.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvwgf2um.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvwgf2um_cfg.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvwgf2umx.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvwgf2umx_cfg.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvencodeapi.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvencodeapi64.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvfbc.dl? == ST ==
+= 1 = PFX-To-Sign-File = Gen-Spec.pfx == \Edit\%\Display.Driver\nvfbc64.dl? == ST ==
 = 1 = Gen-To-Sign-File = \Edit\%\Display.Driver\nvlddmkm.sy? == ST ==
 = 1 = Gen-To-Sign-CatFile = \Edit\%\Display.Driver\*.cat == 10_X64 ==
 
