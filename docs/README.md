@@ -15,7 +15,7 @@ If you like my project, please press "Star" in the top right corner. You can als
   * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
 
 ## Security and transparency
-You can remove digital signatures from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
+You can remove digital signatures from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/)). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
 
 ## Usage
 [Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
