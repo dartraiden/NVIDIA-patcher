@@ -24,7 +24,7 @@ You can remove digital signatures from my files (use [UnSign ](https://github.co
 
 It's recommended to use Windows 11 because it has an updated mechanism for switching between multiple video cards.
 
-1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://disk.yandex.ru/d/5LO4wqy177XZyw)).
+1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
 
 * [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use your card paired with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
 * 472.12 — if you want to use a mining card paired with an old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
