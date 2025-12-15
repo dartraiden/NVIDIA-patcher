@@ -112,3 +112,5 @@ Note: You do not need to double-click the shortcut again; this is a one-time set
 
 ## DirectX 12 on Haswell
 https://www.techpowerup.com/288676/intel-disables-directx-12-api-loading-on-haswell-processors
+
+Linux instruction [how to use patcher](/docs/README-LINUX.md)
