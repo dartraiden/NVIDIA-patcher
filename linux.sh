@@ -33,28 +33,27 @@ replace_pattern() {
     fi
 }
 
-# Patterns from PowerShell script (converted to hex)
-replace_pattern "Pattern 1" \
+replace_pattern "P1xx" \
 "071b0700871b0700c71b0700071c0700091c0700" \
 "ffff0700ffff0700ffff0700ffff0700ffff0700"
 
-replace_pattern "Pattern 2" \
+replace_pattern "CMP" \
 "091e0700491e0700bc1e0700fc1e07000b1f0700812007008220070083200700c2200700892107000d2207004d2207008a240700" \
 "ffff0700491e0700bc1e0700fc1e0700ffff070081200700ffff070083200700ffff0700ffff0700ffff07004d220700ffff0700"
 
-replace_pattern "Pattern 3" \
+replace_pattern "RTX 3080 Ti 20 GB" \
 "05220000092200001422000017220000" \
 "ffff0000092200001422000017220000"
 
-replace_pattern "Pattern 4" \
+replace_pattern "RTX 3060 3840SP" \
 "01250000052500000925000040250000" \
 "ffff0000052500000925000040250000"
 
-replace_pattern "Pattern 5" \
+replace_pattern "RTX 4070 10 GB" \
 "85270000af270000bf270000c2270000" \
 "ffff0000af270000bf270000c2270000"
 
-replace_pattern "Pattern 6" \
+replace_pattern "NVIDIA L40 ES" \
 "af260000b0260000bf260000c1260000" \
 "ffff0000b0260000bf260000c1260000"
 
