@@ -5,7 +5,7 @@
 
 :SetVariables
 set /p "Version=Enter driver version (e.g. 330.67):"
-if not defined Version exit /b 1
+if not defined Version exit 1
 for /d %%a in ("*") do set "DriverPath=%%~fa\Display.Driver"
 set "Nvenc32PatchUrl=https://raw.githubusercontent.com/keylase/nvidia-patch/master/win/win10_x64/%Version%/nvencodeapi.1337"
 set "Nvenc64PatchUrl=https://raw.githubusercontent.com/keylase/nvidia-patch/master/win/win10_x64/%Version%/nvencodeapi64.1337"
@@ -17,7 +17,7 @@ for /f %%a in ( 'curl -o nul -s -Iw "%%{http_code}" "%Nvenc64PatchUrl%"' ) do se
 if not %http% == 200 (
 	echo NVENC patch is not found^^!
 	pause
-	exit /b 1
+	exit 1
 )
 
 :DownloadNvencPatches
@@ -30,7 +30,7 @@ for /f %%a in ( 'curl -o nul -s -Iw "%%{http_code}" "%Nvfbc64WrapperUrl%"' ) do 
 if not %http% == 200 (
 	echo NvFBC wrapper is not found^^!
 	pause
-	exit /b 1
+	exit 1
 )
 
 :UnpackNvfbcFiles
@@ -58,4 +58,4 @@ if %Version% lss 535 (
 	if exist "%DriverPath%\nvfbc64_.dll" makecab "%DriverPath%\nvfbc64_.dll" /l "%DriverPath%"
 )
 
-exit /b 0
+exit
