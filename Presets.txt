@@ -40,7 +40,7 @@
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C07" == "NVIDIA GeForce GTX 1060 6GB" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "DEV\.1C20\.114(E|F)\.1025" == "PCI\VEN_10DE&DEV_1C09" == "NVIDIA GeForce GTX 1060 3GB" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1E09" == "NVIDIA GeForce RTX 2080 Ti" == "" ==
-= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1F0B" == "NVIDIA GeForce RTX 2070" == "" ==
+= 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1ED1.146C.1025" == "PCI\VEN_10DE&DEV_1F0B" == "NVIDIA GeForce RTX 2060 SUPER" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2191.1332.1025" == "PCI\VEN_10DE&DEV_2189" == "NVIDIA GeForce GTX 1660 SUPER" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_2082" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.2420.1633.1025" == "PCI\VEN_10DE&DEV_20C2" == "NVIDIA GeForce RTX 3080 Ti Laptop GPU" == "" ==
