@@ -1,141 +1,35 @@
-# Инструкция для Linux
+[English](#english) | [Русский](#русский)
 
-1. Скачать с официального сайта Nvidia [драйвер](https://www.nvidia.com/en-us/drivers/)  
-(далее в инструкции xxx.xxx.xx — это версия драйвера).
-2. Переместить скачанный файл NVIDIA-Linux-x86_64-xxx.xxx.xx.run в домашний каталог пользователя.
-3. Открыть терминал и извлечь содержимое установочного файла:
- ```shell
-./NVIDIA-Linux-x86_64-xxx.xxx.xx.run --extract-only
-```
-После этого появится каталог `NVIDIA-Linux-x86_64-xxx.xxx.xx`.
+---
 
-4. Скачать скрипт `linux.sh` из проекта и поместить его в каталог:
-```text
-NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-```
-5. Сделать скрипт исполняемым и запустить его с правами суперпользователя:
-```shell
-cd NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-chmod +x linux.sh
-sudo ./linux.sh
-```
-Скрипт создаст резервную копию файла nv-kernel.o_binary и начнёт процесс патчинга.
-В случае успешного выполнения в терминале будет выведено сообщение вида:
-```text
-Creating backup: nv-kernel.o_binary.backup
-Found pattern: Pattern 1 — 1 occurrence(s)
-Found pattern: Pattern 2 — 1 occurrence(s)
-…
-=== SUCCESS ===
-Patching complete.
-```
-6. Установить пропатченный драйвер, запустив установщик из корневого каталога драйвера:
-```shell
-cd ~/NVIDIA-Linux-x86_64-xxx.xxx.xx
-sudo ./nvidia-installer
-```
-### Проблема GSP Firmware 
-Актуально для карт `CMP 30` и `CMP 40`, для повышения производительности и стабильности в игровых и вычислительных 
-нагрузках после успешной установки драйвера необходимо произвести процедуру отключения управления 
-видеокарты через GSP Firmware которая включается автоматически
+# English
 
-1. После установки драйвера заблокировать драйвер nouveau:
-```shell
-sudo tee /etc/modprobe.d/blacklist-nouveau.conf >/dev/null <<'EOF'
-blacklist nouveau
-options nouveau modeset=0
-EOF
-```
-2. Отключение GSP Firmware:
-```shell
-sudo tee /etc/modprobe.d/nvidia.conf >/dev/null <<'EOF'
-options nvidia NVreg_EnableGpuFirmware=0
-EOF
-```
-3. GRUB
-В файл `/etc/default/grub` добавить параметр `nvidia.NVreg_EnableGpuFirmware=0`.   
+## Security and transparency
+Compare the patched and unpatched files byte by byte. You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
 
-Например:
-```text
-   GRUB_CMDLINE_LINUX_DEFAULT="quiet splash nvidia.NVreg_EnableGpuFirmware=0"
-```
-4. Обновить GRUB и initramfs
-```shell
-sudo update-grub && sudo update-initramfs -u -k all
-```
-5. Перезагрузка
-6. Проверка
-```shell
-nvidia-smi -q | grep GSP
-```
-Если GSP отключён — будет GSP Firmware: N/A или отсутствовать.
+If you don't trust me and want to patch the driver by yourself, see [how to use patcher](/docs/README-PATCHER-LINUX.md).
 
-  
-⚠️ Important
+## Usage
+1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
 
-Linux имеет множество дистрибутивов с разными пакетными менеджерами,  
-механизмами initramfs, настройками GRUB и системными утилитами.  
+First, select the row with your "mining" card, then the column depending on what device you are using to display the image on the monitor.
 
-Данная инструкция является универсальной и описывает общий проверенный подход.  
-Она не может учитывать все особенности каждого конкретного дистрибутива.  
+|                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Maxwell and newer) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
+|----------------|-----------------------|----------------------------|-------------------------------------------------|-------------------------------------------|
+| P1XX           | 580.126.18            | 580.126.18                 | 580.126.18                                      | 470.256.02 (no patch needed)              |
+| CMP and others | 580.126.18            | 580.126.18                 | 580.126.18                                      | 470.256.02 (no patch needed)              |
 
-В отдельных случаях команды могут отличаться и требуют адаптации  
-согласно документации вашего дистрибутива.  
+Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
 
-Для корректной работы скрипта в системе должны быть установлены следующие утилиты:  
+pre-Maxwell = GTX 690, GTX 680, GTX 670, GTX 660 Ti, GTX 660, GTX 650 Ti BOOST, GTX 650 Ti, GTX 650, GTX 645, GT 640, GT 635, GT 630, GTX 780 Ti, GTX 780, GTX 770, GTX 760, GTX 760 Ti (OEM), GT 740, GT 730, GT 720, GT 710. Older NVIDIA graphics cards are not supported.
 
-- bash
-- coreutils
-- grep
-- sed
-- xxd
+2. Download the NVIDIA driver from the official [website](https://www.nvidia.com/en-us/drivers/).
+3. Run it with `--extract-only` (i.e., `./NVIDIA-Linux-x86_64-580.105.08.run --extract-only`) to unpack it.
+4. Replace the original file with the patched one.
+5. Install the patched driver by running the `nvidia-installer` from the driver’s root directory.
 
-Как правило, они уже присутствуют в базовой установке большинства дистрибутивов Linux,  
-но в минимальных системах могут потребовать установки вручную.  
-
-Как аналог MSI Afterburner в Linux можно использовать [LACT](https://github.com/ilya-zlobintsev/LACT)
-
-
- # Linux Instruction
-
-1. Download the NVIDIA driver from the official [website](https://www.nvidia.com/en-us/drivers/):  
-(In this guide, xxx.xxx.xx refers to the driver version.)
-2. Move the downloaded file NVIDIA-Linux-x86_64-xxx.xxx.xx.run to your home directory.
-3. Open a terminal and extract the contents of the installer:
-```shell
-./NVIDIA-Linux-x86_64-xxx.xxx.xx.run --extract-only
-```
-After this, a directory named NVIDIA-Linux-x86_64-xxx.xxx.xx will be created.
-4. Download the linux.sh script from the project and place it into the following directory:
-```shell
-NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-```
-5. Make the script executable and run it with superuser privileges:
-```shell
-cd NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-chmod +x linux.sh
-sudo ./linux.sh
-```
-The script will create a backup of nv-kernel.o_binary and start the patching process.
-If the patching is successful, you will see output similar to the following:
-```text
-Creating backup: nv-kernel.o_binary.backup
-Found pattern: Pattern 1 — 1 occurrence(s)
-Found pattern: Pattern 2 — 1 occurrence(s)
-…
-=== SUCCESS ===
-Patching complete.
-```
-6. Install the patched driver by running the installer from the driver’s root directory:
-```shell
-cd ~/NVIDIA-Linux-x86_64-xxx.xxx.xx
-sudo ./nvidia-installer
-```
-
-### GSP Firmware Issue
-Applicable to CMP 30 and CMP 40 GPUs.  
-To improve performance and stability in gaming and compute workloads, after a successful driver installation it is   
-recommended to disable GPU control via GSP Firmware, which is enabled automatically by default.
+## Increase performance of the CMP 30HX and CMP 40HX
+To improve performance and stability in gaming and compute workloads, after a successful driver installation, it is recommended to disable GPU control via GSP Firmware, which is enabled automatically by default.
 
 1. Blacklist the nouveau driver:
 ```shell
@@ -144,14 +38,14 @@ blacklist nouveau
 options nouveau modeset=0
 EOF
 ```
-2. Disable GSP Firmware:
+2. Disable GSP firmware:
 ```shell
 sudo tee /etc/modprobe.d/nvidia.conf >/dev/null <<'EOF'
 options nvidia NVreg_EnableGpuFirmware=0
 EOF
 ```
 3. GRUB configuration  
-Add the parameter `nvidia.NVreg_EnableGpuFirmware=0` to the file `/etc/default/grub`.
+Add the `nvidia.NVreg_EnableGpuFirmware=0` parameter to the file `/etc/default/grub`.
 
 Example:
 ```text
@@ -166,29 +60,72 @@ sudo update-grub && sudo update-initramfs -u -k all
 ```shell
 nvidia-smi -q | grep GSP
 ```
-If GSP is disabled, the output will show GSP Firmware: N/A or the GSP field will be absent entirely.
+If GSP is disabled, the output will show GSP firmware: N/A or the GSP field will be absent entirely.
 
+## Unlocking full x16 PCI-E lines on the CMP-cards
+You need to [solder the missing elements near the PCI-E slot](https://www.youtube.com/watch?v=AlLid4uGxpw).
 
-⚠️ Important
+---
 
-Linux has many different distributions with varying package managers,  
-initramfs implementations, GRUB configurations, and system utilities.  
+# Русский
 
-This guide is intentionally generic and describes a common, proven approach.  
-It cannot account for all distribution-specific details.  
+## Опасающимся за безопасность
+Побайтово сравните исходный и пропатченный файлы. Вы заметите, что изменены лишь несколько байтов. Таким образом, я не могу убрать «вирус» (которого не существует) из драйвера. Сообщите разработчику вашего антивируса о ложноположительном срабатывании.
 
-In some cases, commands may differ and require adjustment  
-according to your distribution’s documentation.  
+Если вы хотите пропатчить драйвер самостоятельно, читайте [руководство по использованию патчера](/docs/README-PATCHER-LINUX.md).
 
-The following utilities are required for the script to work correctly:  
+## Установка
+1. Скачайте пропатченные [файлы](https://github.com/dartraiden/NVIDIA-patcher/releases) (предыдущие версии, при необходимости, можно отыскать [здесь](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
 
-- bash
-- coreutils
-- grep
-- sed
-- xxd
+Чтобы определить требуемую версию драйвера, выберите вашу «майнинговую» карту в горизонтальной строке, затем выберите столбец в зависимости от того, через какое устройство выводите изображение на монитор.
 
-These tools are usually present in most standard Linux installations,  
-but minimal setups may require manual installation.  
+|              | Встроенное видеоядро CPU | Видеокарта (AMD) | Видеокарта (NVIDIA Maxwell или новее) | Видеокарта (NVIDIA до Maxwell) |
+|--------------|--------------------------|------------------|---------------------------------------|--------------------------------|
+| P1XX         | 580.126.18               | 580.126.18       | 580.126.18                            | 470.256.02 (патч не требуется) |
+| CMP и прочие | 580.126.18               | 580.126.18       | 580.126.18                            | 470.256.02 (патч не требуется) |
 
-As an alternative to MSI Afterburner on Linux, you can use [LACT](https://github.com/ilya-zlobintsev/LACT)
+Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
+
+до Maxwell = GTX 690, GTX 680, GTX 670, GTX 660 Ti, GTX 660, GTX 650 Ti BOOST, GTX 650 Ti, GTX 650, GTX 645, GT 640, GT 635, GT 630, GTX 780 Ti, GTX 780, GTX 770, GTX 760, GTX 760 Ti (OEM), GT 740, GT 730, GT 720, GT 710. Более старые видеокарты NVIDIA не поддерживаются.
+
+2. Скачайте [драйвер](https://www.nvidia.com/en-us/drivers/) с официального сайта.
+3. Откройте терминал и извлеките содержимое установочного файла, запустив его с ключом `--extract-only` (например, `./NVIDIA-Linux-x86_64-580.105.08.run --extract-only`).
+4. Замените в распакованном драйвере оригинальный файл пропатченным.
+5. Установите пропатченный драйвер, запустив установщик `nvidia-installer` из корневого каталога драйвера.
+
+## Повышение производительности CMP 30HX и CMP 40HX
+Для повышения производительности и стабильности в игровых и вычислительных нагрузках после успешной установки драйвера необходимо отключить управление видеокартой через прошивку GSP.
+
+1. После установки драйвера заблокировать драйвер nouveau:
+```shell
+sudo tee /etc/modprobe.d/blacklist-nouveau.conf >/dev/null <<'EOF'
+blacklist nouveau
+options nouveau modeset=0
+EOF
+```
+2. Отключить прошивку GSP:
+```shell
+sudo tee /etc/modprobe.d/nvidia.conf >/dev/null <<'EOF'
+options nvidia NVreg_EnableGpuFirmware=0
+EOF
+```
+3. Настроить GRUB  
+Добавить параметр `nvidia.NVreg_EnableGpuFirmware=0` в файл `/etc/default/grub`.
+
+Например:
+```text
+   GRUB_CMDLINE_LINUX_DEFAULT="quiet splash nvidia.NVreg_EnableGpuFirmware=0"
+```
+4. Обновить GRUB и initramfs:
+```shell
+sudo update-grub && sudo update-initramfs -u -k all
+```
+5. Перезагрузить компьютер.
+6. Проверить:
+```shell
+nvidia-smi -q | grep GSP
+```
+Если прошивка GSP отключена, то результатом будет `GSP firmware: N/A`, либо полное отсутствие.
+
+## Разблокировка всех 16 линий PCI-E на CMP-картах
+Нужно [распаять отсутствующие элементы возле слота PCI-E](https://www.youtube.com/watch?v=twRIYq2p-38).

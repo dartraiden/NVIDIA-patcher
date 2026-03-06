@@ -1,9 +1,19 @@
- # NVIDIA patched drivers
+[English](#english) | [Русский](#русский)
+
+---
+
+# English
+
+## NVIDIA patched drivers
 Adds 3D acceleration support for P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX mining cards as well as RTX 3060 3840SP, RTX 3080 Ti 20 GB, RTX 4070 10 GB, and L40 ES.
 
 ![](/docs/branded.jpg)  
 
-# Donation
+# How to use it
+## [Windows](/docs/README-WINDOWS.md)
+## [Linux](/docs/README-LINUX.md)
+
+## Donation
 ![](/docs/donate.png)  
 If you like my project, please press "Star" in the top right corner. You can also donate me some money:
 * [Boosty](https://boosty.to/dartraiden/donate)
@@ -16,101 +26,28 @@ If you like my project, please press "Star" in the top right corner. You can als
   * USDT (Ethereum, ERC-20): 0xf27585a4d02ac0308297621fac33763cd100c9f0
   * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
 
-## Security and transparency
-You can remove digital signatures from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/)). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
+---
 
-## Usage
-[Click here](https://mysku.club/blog/taobao/70663.html) if you need Russian translation.
+# Русский
 
-It's recommended to use Windows 11 because it has an updated mechanism for switching between multiple video cards.
+## Пропатченные драйверы NVIDIA
+Добавляют поддержку 3D-ускорения майнинговым картам P106-090 / P106-100 / P104-100 / P104-101 / P102-100 / CMP 30HX / CMP 40HX / CMP 50HX / CMP 70HX / CMP 90HX / CMP 170HX, а также картам RTX 3060 3840SP, RTX 3080 Ti 20 GB, RTX 4070 10 GB и L40 ES.
 
-1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
+![](/docs/branded.jpg)  
 
-* [latest](https://github.com/dartraiden/NVIDIA-patcher/releases/latest) — if you want to use your card paired with any AMD/Intel graphic or any supported NVIDIA discrete graphic.
-* 472.12 — if you want to use a mining card paired with an old NVIDIA discrete graphic (GeForce 600 Series, GeForce GT 710-740, GeForce GTX 760-780 Ti).
-* 446.14 — if you want to use a mining card (only PXXX, not CMP-cards) in the SLI setup (see [SLI hack](#SLI-hack)).
+# Как пользоваться
+## [Windows](/docs/README-WINDOWS.md)
+## [Linux](/docs/README-LINUX.md)
 
-The patched driver comes in two versions:
-* Regular;
-* `NVENC-NvFBC-` prefixed ([removed](https://github.com/keylase/nvidia-patch/tree/master/win) restriction on maximum number of simultaneous NVENC video encoding; [enabled](https://github.com/keylase/nvidia-patch/tree/master/win/nvfbcwrp) NvFBC for all NvFBC-targeted applications).
-
-**Attention: Do not use NVENC- prefixed package if your mining card does not have hardware NVENC support. In this case driver will cause problems (crashes) in applications supporting NVENC.**
-
-2. Download the official driver package from the NVIDIA website.
-3. Download [Display Driver Uninstaller](https://www.wagnardsoft.com/display-driver-uninstaller-ddu-) (DDU).
-4. Unpack the official driver package with 7-Zip / WinRAR / etc.
-5. Replace original files with patched ones.
-6. Unplug the network cable / disable Wi-Fi on your PC and clean the installed NVIDIA driver with DDU. Reboot PC.
-7. Run setup.exe.
-
-During installation, you can select the option "Spoof GPU name" so that the graphics adapter appears in the device manager with the name of the corresponding gaming video card.
-
-Result:
-
-![Screenshot of GPU-Z window](/docs/GPU-Z.png)
-
-Now you can plug in the network cable / enable Wi-Fi back.
-
-8.1. In Windows 10 open the NVIDIA control panel → 3D settings → Manage 3D settings → set "High-performance NVIDIA processor" as the preferred graphics processor:
-
-![Screenshot of NVIDIA control panel](/docs/NVIDIA%20Manage%203D%20Settings.jpg) ![Screenshot of "High-performance NVIDIA processor" option](/docs/High%20Performance%20NVIDIA%20Processor.jpg)
-
-8.2. In Windows 11 open Settings → System → Display → Graphics → Change default graphic settings → set mining card as the default high-performance graphic adapter:
-
-![Screenshot of "Default High-performance GPU" option](/docs/Windows%20Default%20High-performance%20GPU.png)
-
-## SLI hack
-It is possible to pair together different GPUs of similar generation/architecture to work together in SLI (Note: Mixing different VRAM sizes may cause some instability or stop SLI from functioning properly). It can also enable SLI on some non-SLI/Crossfire compatible motherboards, making it a replacement for the discontinued HyperSLI program (Note: The SLI support on non-multi-GPU motherboards is not guaranteed).
-
-Mandatory requirements:
-* Driver version 446.14 (exactly this version).
-* The first three symbols of Device ID for both cards must match. Go to Windows Device Manager → Right-click on device → Properties → Switch to the "Details" tab →  Select "Hardware IDs" from the combo box.
-
-As an example:  
-NVIDIA_DEV.`118`5.098A.10DE = "NVIDIA GeForce GTX 660"  
-NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
-
-Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 1060 cannot.
-
-## Troubleshooting
-* Problem: Antivirus software removes driver.  
-Solution: Add the `C:\Windows\System32\DriverStore` directory to the exceptions of Windows Defender (or other antivirus you use). Reinstall the driver after that.
-
-* Problem: A BSOD after installing the driver.  
-Solution: Turn off the [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
-
-# If you don't trust me and want to patch the driver by yourself, see [how to use patcher](/docs/README-PATCHER.md).
-
-## Unlocking full x16 PCI-E lines on the CMP-cards
-TL;DR: You need to solder the missing elements near the PCI-E slot.
-
-English:
-https://www.youtube.com/watch?v=AlLid4uGxpw
-
-Russian:
-https://www.youtube.com/watch?v=twRIYq2p-38
-
-## Using ShadowPlay, also known as the NVIDIA overlay
-Requires graphics card that supports NVENC.
-
-### Recommended method: [NVIDIA App](https://www.nvidia.com/en-us/software/nvidia-app/)
-
-### Alternative method: GeForce Experience
-
-To use the ShadowPlay overlay to record gameplay, use the resource monitor or stream, you must follow these steps:
-1. Download and install [GeForce Experience](https://www.nvidia.com/en-us/geforce/geforce-experience/download/) (no need to log in).
-2. Go to the installation path of Nvidia GeForce Experience, usually located at `C:\Program Files\NVIDIA Corporation\NVIDIA GeForce Experience`
-3. Once there, locate the executable named "NVIDIA Share.exe" and create a shortcut on your desktop.
-4. Right-click on the created desktop shortcut, go to properties, and in the "Target" field at the end of the path, add ` --shadowplay` while ensuring there's a space as shown in the picture. Then click OK.
-
-![Screenshot of NVIDIA Share shortcut](/docs/NVIDIA%20Share%20shortcut.png)
-
-4. Now double-click on the shortcut, and you'll notice that nothing appears to happen. However, when you press `Alt+Z`, the ShadowPlay overlay will open.
-Note: You do not need to double-click the shortcut again; this is a one-time setup. From now on, you can always open ShadowPlay by pressing `Alt+Z`.
-
-![Screenshot of ShadowPlay](/docs/ShadowPlay.png)
-
-## DirectX 12 on Haswell
-https://www.techpowerup.com/288676/intel-disables-directx-12-api-loading-on-haswell-processors
-
-Linux instruction [how to use patcher](/docs/README-LINUX.md)
+## Поддержать проект
+![](/docs/donate.png)  
+Если вам понравился этот проект, нажмите «Звезду» в правом верхнем углу. Кроме того вы можете заслать мне деньги:
+* [Boosty](https://boosty.to/dartraiden/donate)
+* [YooMoney](https://yoomoney.ru/to/410014777525134)
+* [WebMoney](https://donate.webmoney.com/w/Dns9GDPvvlgw2pFUqf1pff)
+* Криптовалюта:
+  * BTC: bc1qakj06mgfcv8ypqeg38d6svwpefxluz90scmwvd
+  * LTC: ltc1qmhvewg7zjmmjw2uuyl37g26vxjjpywteppt6s9
+  * ETH: 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * USDT (Ethereum, ERC-20): 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
