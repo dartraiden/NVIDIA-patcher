@@ -23,7 +23,9 @@ If you like my project, please press "Star" in the top right corner. You can als
   * BTC: bc1qakj06mgfcv8ypqeg38d6svwpefxluz90scmwvd
   * LTC: ltc1qmhvewg7zjmmjw2uuyl37g26vxjjpywteppt6s9
   * ETH: 0xf27585a4d02ac0308297621fac33763cd100c9f0
-  * USDT (Ethereum, ERC-20): 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * USDT (Ethereum, ERC20): 0xf27585a4d02ac0308297621fac33763cd100c9f0
+  * TRX: TF3yJNg9wctvbNT9PteXezxc3zuzpvHk22
+  * USDT (Tron, TRС20): TF3yJNg9wctvbNT9PteXezxc3zuzpvHk22
   * XMR (Monero): 86kq7awBWZKQt6ndJFJSdNEkAZzZQp6Fz4ToenTLNNjmGZS83LUbWEL9xtem3jwTy23KGfZr2sqK5TH5gy7bFr53QY5RN1D
 
 ---
