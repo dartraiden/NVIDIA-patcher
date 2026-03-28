@@ -16,8 +16,8 @@ First, select the row with your "mining" card, then the column depending on what
 
 |                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Maxwell and newer) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
 |----------------|-----------------------|----------------------------|-------------------------------------------------|-------------------------------------------|
-| P1XX           | 580.126.18            | 580.126.18                 | 580.126.18                                      | 470.256.02 (no patch needed)              |
-| CMP and others | 580.126.18            | 580.126.18                 | 580.126.18                                      | 470.256.02 (no patch needed)              |
+| P1XX           | 580.142               | 580.142                    | 580.142                                         | 470.256.02 (no patch needed)              |
+| CMP and others | 580.142               | 580.142                    | 580.142                                         | 470.256.02 (no patch needed)              |
 
 Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
 
@@ -81,8 +81,8 @@ You need to [solder the missing elements near the PCI-E slot](https://www.youtub
 
 |              | Встроенное видеоядро CPU | Видеокарта (AMD) | Видеокарта (NVIDIA Maxwell или новее) | Видеокарта (NVIDIA до Maxwell) |
 |--------------|--------------------------|------------------|---------------------------------------|--------------------------------|
-| P1XX         | 580.126.18               | 580.126.18       | 580.126.18                            | 470.256.02 (патч не требуется) |
-| CMP и прочие | 580.126.18               | 580.126.18       | 580.126.18                            | 470.256.02 (патч не требуется) |
+| P1XX         | 580.142                  | 580.142          | 580.142                               | 470.256.02 (патч не требуется) |
+| CMP и прочие | 580.142                  | 580.142          | 580.142                               | 470.256.02 (патч не требуется) |
 
 Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
 
