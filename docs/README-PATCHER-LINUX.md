@@ -11,26 +11,15 @@ The following utilities are required for the script to work correctly:
 - sed
 - xxd
 
-1. Download the NVIDIA driver from the official [website](https://www.nvidia.com/en-us/drivers/):  
+1. Download the NVIDIA driver installer from the official [website](https://www.nvidia.com/en-us/drivers/):  
 (in this guide, xxx.xxx.xx refers to the driver version).
 
 2. Move the downloaded file NVIDIA-Linux-x86_64-xxx.xxx.xx.run to your home directory.
 
-3. Open a terminal and extract the contents of the installer:
-```shell
-chmod +x NVIDIA-Linux-x86_64-xxx.xxx.xx.run
-./NVIDIA-Linux-x86_64-xxx.xxx.xx.run --extract-only
-```
-After this, a directory named `NVIDIA-Linux-x86_64-xxx.xxx.xx` will be created.
+3. Download the linux.sh script from this project and place it into the same directory as the installer.
 
-4. Download the linux.sh script from this project and place it into the following directory:
-```text
-NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-```
-
-5. Make the script executable and run it:
+4. Make the script executable and run it:
 ```shell
-cd NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
 chmod +x linux.sh
 ./linux.sh
 ```
@@ -45,7 +34,7 @@ Found pattern: Pattern 2 — 1 occurrence(s)
 Patching complete.
 ```
 
-6. Install the patched driver by running the installer from the driver’s root directory:
+5. Install the patched driver by running the installer from the driver’s root directory:
 ```shell
 cd ~/NVIDIA-Linux-x86_64-xxx.xxx.xx
 sudo ./nvidia-installer
@@ -62,26 +51,15 @@ sudo ./nvidia-installer
 - sed
 - xxd
 
-1. Скачайте [драйвер](https://www.nvidia.com/en-us/drivers/) с официального сайта  
+1. Скачайте [установщик драйвера](https://www.nvidia.com/en-us/drivers/) с официального сайта  
 (далее в инструкции xxx.xxx.xx — это версия драйвера).
 
 2. Поместите скачанный файл NVIDIA-Linux-x86_64-xxx.xxx.xx.run в домашний каталог пользователя.
 
-3. Откройте терминал и извлеките содержимое установочного файла:
-```shell
-chmod +x NVIDIA-Linux-x86_64-xxx.xxx.xx.run
-./NVIDIA-Linux-x86_64-xxx.xxx.xx.run --extract-only
-```
-После этого появится каталог `NVIDIA-Linux-x86_64-xxx.xxx.xx`.
+3. Скачайте из этого проекта скрипт `linux.sh` и поместите его в тот же каталог, где находится установщик.
 
-4. Скачайте из этого проекта скрипт `linux.sh` и поместите его в каталог:
-```text
-NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
-```
-
-5. Сделайте скрипт исполняемым и запустите его:
+4. Сделайте скрипт исполняемым и запустите его:
 ```shell
-cd NVIDIA-Linux-x86_64-xxx.xxx.xx/kernel/nvidia
 chmod +x linux.sh
 ./linux.sh
 ```
@@ -96,7 +74,7 @@ Found pattern: Pattern 2 — 1 occurrence(s)
 Patching complete.
 ```
 
-6. Установите пропатченный драйвер, запустив установщик из корневого каталога драйвера:
+5. Установите пропатченный драйвер, запустив установщик из корневого каталога драйвера:
 ```shell
 cd ~/NVIDIA-Linux-x86_64-xxx.xxx.xx
 sudo ./nvidia-installer

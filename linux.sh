@@ -2,8 +2,22 @@
 
 set -e
 
-FILE="nv-kernel.o_binary"
-BACKUP="nv-kernel.o_binary.backup"
+INSTALLER=$(ls NVIDIA-Linux*.run 2>/dev/null | head -n 1)
+
+if [ -z "$INSTALLER" ]; then
+    echo "Error: Installer not found."
+    exit 1
+fi
+
+# Extract files from installer
+echo "Extracting $INSTALLER..."
+chmod +x "$INSTALLER"
+./"$INSTALLER" --extract-only
+
+# Define the path to the binary inside the extracted directory
+# The extracted folder matches the filename without .run
+FILE="${INSTALLER%.run}/kernel/nvidia/nv-kernel.o_binary"
+BACKUP="$FILE.backup"
 
 if [ ! -f "$FILE" ]; then
     echo "Error: File not found: $FILE"
