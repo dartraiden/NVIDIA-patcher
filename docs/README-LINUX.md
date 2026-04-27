@@ -14,10 +14,14 @@ If you don't trust me and want to patch the driver by yourself, see [how to use 
 
 First, select the row with your "mining" card, then the column depending on what device you are using to display the image on the monitor.
 
-|                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Maxwell and newer) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
-|----------------|-----------------------|----------------------------|-------------------------------------------------|-------------------------------------------|
-| P1XX           | 580.142               | 580.142                    | 580.142                                         | 470.256.02 (no patch needed)              |
-| CMP and others | 580.142               | 580.142                    | 580.142                                         | 470.256.02 (no patch needed)              |
+|                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Turing and newer) | Discrete graphics<br>(NVIDIA Maxwell — Pascal) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
+|----------------|-----------------------|----------------------------|------------------------------------------------|------------------------------------------------|-------------------------------------------|
+| P1XX           | 580.142               | 580.142                    | 580.142                                        | 580.142                                        | 470.256.02 (no patch needed)              |
+| CMP and others | 595.58.03             | 595.58.03                  | 595.58.03                                      | 580.142                                        | 470.256.02 (no patch needed)              |
+
+Turing = Series 20 (RTX 2xxx) and Series 16 (GTX 16xx).
+
+Pascal = Series 10 (GTX 1xxx).
 
 Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
 
@@ -79,10 +83,14 @@ You need to [solder the missing elements near the PCI-E slot](https://www.youtub
 
 Чтобы определить требуемую версию драйвера, выберите вашу «майнинговую» карту в горизонтальной строке, затем выберите столбец в зависимости от того, через какое устройство выводите изображение на монитор.
 
-|              | Встроенное видеоядро CPU | Видеокарта (AMD) | Видеокарта (NVIDIA Maxwell или новее) | Видеокарта (NVIDIA до Maxwell) |
-|--------------|--------------------------|------------------|---------------------------------------|--------------------------------|
-| P1XX         | 580.142                  | 580.142          | 580.142                               | 470.256.02 (патч не требуется) |
-| CMP и прочие | 580.142                  | 580.142          | 580.142                               | 470.256.02 (патч не требуется) |
+|              | Встроенное видеоядро CPU | Видеокарта (AMD)  | Видеокарта (NVIDIA Maxwell или новее) | Видеокарта <br>(NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) |
+|--------------|-----------------   ------|-------------------|---------------------------------------|------------------------------------------|--------------------------------|
+| P1XX         | 580.142                  | 580.142           | 580.142                               | 580.142                                  | 470.256.02 (патч не требуется) |
+| CMP и прочие | 595.58.03                | 595.58.03         | 595.58.03                             | 580.142                                  | 470.256.02 (патч не требуется) |
+
+Turing = Series 20 (RTX 2xxx) и Series 16 (GTX 16xx).
+
+Pascal = Series 10 (GTX 1xxx).
 
 Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, GTX 950.
 
