@@ -5,7 +5,7 @@
 # English
 
 ## Security and transparency
-You can remove digital signatures from my files (use [UnSign ](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/)). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
+You can remove digital signatures from my files (use [UnSign](https://github.com/SV-Foster/UnSign) or [SigRemove](https://dennisbabkin.com/sigremover/)). Repeat this with the original files from the NVIDIA distribution. Compare the files byte by byte (`fc /b original.dll patched.dll`). You will see that the files are identical, only a small number of bytes have changed. In this regard, I can't remove the "virus" (which doesn't exist) from the driver. Please report the false positive to your antivirus manufacturer.
 
 If you don't trust me and want to patch the driver by yourself, see [how to use patcher](/docs/README-PATCHER-WINDOWS.md).
 
@@ -17,7 +17,7 @@ It's recommended to use Windows 11 because it has an updated mechanism for switc
 First, select the row with your "mining" card, then the column depending on what device you are using to display the image on the monitor.
 
 |                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Turing and newer) | Discrete graphics<br>(NVIDIA Maxwell — Pascal) | Discrete graphics<br>(NVIDIA pre-Maxwell) | SLI Setup     |
-|----------------|-----------------------|----------------------------|------------------------------------------------|------------------------------------------------|-------------------------------------------|----------    -|
+|:---------------|:----------------------|:---------------------------|:-----------------------------------------------|:-----------------------------------------------|:------------------------------------------|:--------------|
 | P1XX           | 582.28                | 582.28                     | 581.94                                         | 582.28                                         | 472.12                                    | 446.14        |
 | CMP and others | 596.21                | 596.21                     | 596.21                                         | 581.94                                         | 472.12                                    | Not supported |
 
@@ -107,7 +107,7 @@ Note: You do not need to double-click the shortcut again; this is a one-time set
 # Русский
 
 ## Опасающимся за безопасность
-Удалите цифровую подпись с предоставленных мною файлов (с помощью утилит типа [UnSign ](https://github.com/SV-Foster/UnSign) или [SigRemove](https://dennisbabkin.com/sigremover/)). Сделайте то же самое с оригинальными файлами из дистрибутива от NVIDIA. Побайтово сравните исходный и пропатченный файлы. Вы заметите, что изменены лишь несколько байтов. Таким образом, я не могу убрать «вирус» (которого не существует) из драйвера. Сообщите разработчику вашего антивируса о ложноположительном срабатывании.
+Удалите цифровую подпись с предоставленных мною файлов (с помощью утилит типа [UnSign](https://github.com/SV-Foster/UnSign) или [SigRemove](https://dennisbabkin.com/sigremover/)). Сделайте то же самое с оригинальными файлами из дистрибутива от NVIDIA. Побайтово сравните исходный и пропатченный файлы. Вы заметите, что изменены лишь несколько байтов. Таким образом, я не могу убрать «вирус» (которого не существует) из драйвера. Сообщите разработчику вашего антивируса о ложноположительном срабатывании.
 
 Если вы хотите пропатчить драйвер самостоятельно, читайте [руководство по использованию патчера](/docs/README-PATCHER-WINDOWS.md).
 
@@ -119,7 +119,7 @@ Note: You do not need to double-click the shortcut again; this is a one-time set
 Чтобы определить требуемую версию драйвера, выберите вашу «майнинговую» карту в горизонтальной строке, затем выберите столбец в зависимости от того, через какое устройство выводите изображение на монитор.
 
 |              | Встроенное видеоядро CPU | Видеокарта (AMD) | Видеокарта (NVIDIA Turing или новее) | Видеокарта (NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) | SLI               |
-|--------------|--------------------------|------------------|--------------------------------------|--------------------------------------|--------------------------------|-------------------|
+|:-------------|:-------------------------|:-----------------|:-------------------------------------|:-------------------------------------|:-------------------------------|:------------------|
 | P1XX         | 582.28                   | 582.28           | 581.94                               | 582.28                               | 472.12                         | 446.14            |
 | CMP и прочие | 596.21                   | 596.21           | 596.21                               | 581.94                               | 472.12                         | Не поддерживается |
 
@@ -135,7 +135,7 @@ Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, G
 * Обычный;
 * С префиксом`NVENC-NvFBC-` ([снято](https://github.com/keylase/nvidia-patch/tree/master/win) ограничение максимального числа одновременных кодирований NVENC; для всех поддерживаемых приложений [включена](https://github.com/keylase/nvidia-patch/tree/master/win/nvfbcwrp) технология NvFBC.
 
-**Внимание: Не используйте NVENC- драйвер, если ваша карта не имеет аппаратной поддержки NVENC (например, она отсутствует у P1XX-карт). Иначе приложения будут падать при попытке задействовать эту технологию.**
+**Внимание: Не используйте NVENC-драйвер, если ваша карта не имеет аппаратной поддержки NVENC (например, она отсутствует у P1XX-карт). Иначе приложения будут падать при попытке задействовать эту технологию.**
 
 2. Скачайте [драйвер](https://www.nvidia.com/en-us/drivers/) с официального сайта.
 3. Скачайте [Display Driver Uninstaller](https://www.wagnardsoft.com/display-driver-uninstaller-ddu-) (DDU).
@@ -159,7 +159,7 @@ Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, G
 ![Скриншот настройки «Высокопроизводительный графический адаптер по умолчанию»](/docs/Windows%20Default%20High-performance%20GPU.png)
 
 ## Работа в режиме SLI
-Можно заставить работать вместе в режиме SLI разные GPU одного поколения/архитектуры (Примечание: Объединение видеокарт с разным объёмом видеопамяти может привести к нестабильной работе или некорректно работающему SLI). Кроме того, это включает SLI на некоторых материнских платах, несовместимых со-SLI/Crossfire, как делала когда-то заброшенная ныне программа HyperSLI (Примечание: Поддержка SLI на таких материнских платах не гарантирована).
+Можно заставить работать вместе в режиме SLI разные GPU одного поколения/архитектуры (Примечание: Объединение видеокарт с разным объёмом видеопамяти может привести к нестабильной работе или некорректно работающему SLI). Кроме того, это включает SLI на некоторых материнских платах, несовместимых с SLI/Crossfire, как делала когда-то заброшенная ныне программа HyperSLI (Примечание: Поддержка SLI на таких материнских платах не гарантирована).
 
 Обязательные требования:
 * Драйвер версии 446.14 (в точности этой версии).
@@ -175,7 +175,7 @@ NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 * Проблема: Антивирусное ПО удаляет драйвер.  
 Решение: Добавить каталог `C:\Windows\System32\DriverStore` в список исключений антивируса. После этого переустановить драйвер.
 
-* Проблема: BSOD после устьановки драйвера.  
+* Проблема: BSOD после установки драйвера.  
 Решение: Выключить [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
 
 * Проблема: Отсутствует поддержка DirectX 12 на платформе Haswell.

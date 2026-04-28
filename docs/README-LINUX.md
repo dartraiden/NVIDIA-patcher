@@ -15,7 +15,7 @@ If you don't trust me and want to patch the driver by yourself, see [how to use 
 First, select the row with your "mining" card, then the column depending on what device you are using to display the image on the monitor.
 
 |                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Turing and newer) | Discrete graphics<br>(NVIDIA Maxwell — Pascal) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
-|----------------|-----------------------|----------------------------|------------------------------------------------|------------------------------------------------|-------------------------------------------|
+|:---------------|-----------------------|:---------------------------|:-----------------------------------------------|:-----------------------------------------------|:------------------------------------------|
 | P1XX           | 580.142               | 580.142                    | 580.142                                        | 580.142                                        | 470.256.02 (no patch needed)              |
 | CMP and others | 595.58.03             | 595.58.03                  | 595.58.03                                      | 580.142                                        | 470.256.02 (no patch needed)              |
 
@@ -30,7 +30,7 @@ pre-Maxwell = GTX 690, GTX 680, GTX 670, GTX 660 Ti, GTX 660, GTX 650 Ti BOOST, 
 2. Download the NVIDIA driver from the official [website](https://www.nvidia.com/en-us/drivers/).
 3. Run it with `--extract-only` (i.e., `./NVIDIA-Linux-x86_64-580.105.08.run --extract-only`) to unpack it.
 4. Replace the original file with the patched one.
-5. Install the patched driver by running the `nvidia-installer` from the driver’s root directory.
+5. Install the patched driver by running the `nvidia-installer` from the driver's root directory.
 
 ## Increase performance of the CMP 30HX and CMP 40HX
 To improve performance and stability in gaming and compute workloads, after a successful driver installation, it is recommended to disable GPU control via GSP Firmware, which is enabled automatically by default.
@@ -83,10 +83,10 @@ You need to [solder the missing elements near the PCI-E slot](https://www.youtub
 
 Чтобы определить требуемую версию драйвера, выберите вашу «майнинговую» карту в горизонтальной строке, затем выберите столбец в зависимости от того, через какое устройство выводите изображение на монитор.
 
-|              | Встроенное видеоядро CPU | Видеокарта (AMD)  | Видеокарта (NVIDIA Maxwell или новее) | Видеокарта <br>(NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) |
-|--------------|-----------------   ------|-------------------|---------------------------------------|------------------------------------------|--------------------------------|
-| P1XX         | 580.142                  | 580.142           | 580.142                               | 580.142                                  | 470.256.02 (патч не требуется) |
-| CMP и прочие | 595.58.03                | 595.58.03         | 595.58.03                             | 580.142                                  | 470.256.02 (патч не требуется) |
+|              | Встроенное видеоядро CPU | Видеокарта (AMD)  | Видеокарта (NVIDIA Turing или новее) | Видеокарта <br>(NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) |
+|:-------------|:-------------------------|:------------------|:--------------------------------------|:----------------------------------------|:-------------------------------|
+| P1XX         | 580.142                  | 580.142           | 580.142                               | 580.142                                 | 470.256.02 (патч не требуется) |
+| CMP и прочие | 595.58.03                | 595.58.03         | 595.58.03                             | 580.142                                 | 470.256.02 (патч не требуется) |
 
 Turing = Series 20 (RTX 2xxx) и Series 16 (GTX 16xx).
 
@@ -102,7 +102,7 @@ Maxwell = GTX 750 Ti, GTX 750, GTX 745, GTX 980 Ti, GTX 980, GTX 970, GTX 960, G
 5. Установите пропатченный драйвер, запустив установщик `nvidia-installer` из корневого каталога драйвера.
 
 ## Повышение производительности CMP 30HX и CMP 40HX
-Для повышения производительности и стабильности в игровых и вычислительных нагрузках после успешной установки драйвера необходимо отключить управление видеокартой через прошивку GSP.
+Для повышения производительности и стабильности в игровых и вычислительных нагрузках после успешной установки драйвера рекомендуется отключить управление видеокартой через прошивку GSP.
 
 1. После установки драйвера заблокировать драйвер nouveau:
 ```shell
