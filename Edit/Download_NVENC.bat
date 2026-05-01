@@ -13,7 +13,7 @@ set "Nvfbc32WrapperUrl=https://gist.githubusercontent.com/Snawoot/17b14e7ce0f741
 set "Nvfbc64WrapperUrl=https://gist.githubusercontent.com/Snawoot/17b14e7ce0f7412b91587c2723719eff/raw/e8e9658fd20751ad875477f37b49ea158ece896d/nvfbcwrp64.dll"
 
 :CheckNvencPatchPresence
-for /f %%a in ( 'curl -o nul -s -Iw "%%{http_code}" "%Nvenc64PatchUrl%"' ) do set http=%%a
+for /f %%a in ( 'curl -o nul -k -s -Iw "%%{http_code}" "%Nvenc64PatchUrl%"' ) do set http=%%a
 if not %http% == 200 (
 	echo NVENC patch is not found^^!
 	pause
@@ -22,11 +22,11 @@ if not %http% == 200 (
 
 :DownloadNvencPatches
 title Downloading NVENC patches...
-curl -s -O %Nvenc32PatchUrl%
-curl -s -O %Nvenc64PatchUrl%
+curl -k -s -O %Nvenc32PatchUrl%
+curl -k -s -O %Nvenc64PatchUrl%
 
 :CheckNvfbcWrapperPresence
-for /f %%a in ( 'curl -o nul -s -Iw "%%{http_code}" "%Nvfbc64WrapperUrl%"' ) do set http=%%a
+for /f %%a in ( 'curl -o nul -k -s -Iw "%%{http_code}" "%Nvfbc64WrapperUrl%"' ) do set http=%%a
 if not %http% == 200 (
 	echo NvFBC wrapper is not found^^!
 	pause
@@ -46,8 +46,8 @@ ren "%DriverPath%\nvfbc64.dll" "nvfbc64_.dll"
 
 :DownloadNvfbcWrapper
 title Downloading NvFBC wrappers...
-curl -s -o "%DriverPath%\nvfbc.dll" %Nvfbc32WrapperUrl%
-curl -s -o "%DriverPath%\nvfbc64.dll" %Nvfbc64WrapperUrl%
+curl -k -s -o "%DriverPath%\nvfbc.dll" %Nvfbc32WrapperUrl%
+curl -k -s -o "%DriverPath%\nvfbc64.dll" %Nvfbc64WrapperUrl%
 
 :PackNvfbcFiles
 if %Version% lss 535 (
