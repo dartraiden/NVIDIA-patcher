@@ -178,7 +178,7 @@ Script-Version = 0.0.4 ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx.dl? == == [0][0] == == "87 26 00 00 [[AF 26]] 00 00 B0 26 00 00 BF 26 00 00" == "FF FF" == ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvwgf2umx_cfg.dl? == == [0][0] == == "87 26 00 00 [[AF 26]] 00 00 B0 26 00 00 BF 26 00 00" == "FF FF" == ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvlddmkm.sy? == == [0][0] == == "87 26 00 00 [[AF 26]] 00 00 B0 26 00 00 BF 26 00 00" == "FF FF" == ==
-------- RTX 5080M ES DEV_2C2C -------
+------- RTX 5080M ES N22W-ES-A1 DEV_2C2C -------
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum.dl? == == [0][0] == == "2B 2C 00 00 [[2C 2C]] 00 00 2D 2C 00 00 2E 2C 00 00" == "FF FF" == ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dum_cfg.dl? == == [0][0] == == "2B 2C 00 00 [[2C 2C]] 00 00 2D 2C 00 00 2E 2C 00 00" == "FF FF" == ==
 = 1 = Patch-PE-Univers = \Edit\%\Display.Driver\nvd3dumx.dl? == == [0][0] == == "2B 2C 00 00 [[2C 2C]] 00 00 2D 2C 00 00 2E 2C 00 00" == "FF FF" == ==
