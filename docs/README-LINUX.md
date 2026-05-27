@@ -16,8 +16,8 @@ First, select the row with your "mining" card, then the column depending on what
 
 |                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Turing and newer) | Discrete graphics<br>(NVIDIA Maxwell — Pascal) | Discrete graphics<br>(NVIDIA pre-Maxwell) |
 |:---------------|-----------------------|:---------------------------|:-----------------------------------------------|:-----------------------------------------------|:------------------------------------------|
-| P1XX           | 580.142               | 580.142                    | 580.142                                        | 580.142                                        | 470.256.02 (no patch needed)              |
-| CMP and others | 610.43.02             | 610.43.02                  | 610.43.02                                      | 580.142                                        | 470.256.02 (no patch needed)              |
+| P1XX           | 580.159.04            | 580.159.04                 | 580.159.04                                     | 580.159.04                                     | 470.256.02 (no patch needed)              |
+| CMP and others | 610.43.02             | 610.43.02                  | 610.43.02                                      | 580.159.04                                     | 470.256.02 (no patch needed)              |
 
 Turing = Series 20 (RTX 2xxx) and Series 16 (GTX 16xx).
 
@@ -85,8 +85,8 @@ You need to [solder the missing elements near the PCI-E slot](https://www.youtub
 
 |              | Встроенное видеоядро CPU | Видеокарта (AMD)  | Видеокарта (NVIDIA Turing или новее) | Видеокарта <br>(NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) |
 |:-------------|:-------------------------|:------------------|:--------------------------------------|:----------------------------------------|:-------------------------------|
-| P1XX         | 580.142                  | 580.142           | 580.142                               | 580.142                                 | 470.256.02 (патч не требуется) |
-| CMP и прочие | 610.43.02                | 610.43.02         | 610.43.02                             | 580.142                                 | 470.256.02 (патч не требуется) |
+| P1XX         | 580.159.04               | 580.159.04        | 580.159.04                            | 580.159.04                              | 470.256.02 (патч не требуется) |
+| CMP и прочие | 610.43.02                | 610.43.02         | 610.43.02                             | 580.159.04                              | 470.256.02 (патч не требуется) |
 
 Turing = Series 20 (RTX 2xxx) и Series 16 (GTX 16xx).
 
