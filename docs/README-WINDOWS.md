@@ -18,8 +18,8 @@ First, select the row with your "mining" card, then the column depending on what
 
 |                | Internal CPU graphics | Discrete graphics<br>(AMD) | Discrete graphics<br>(NVIDIA Turing and newer) | Discrete graphics<br>(NVIDIA Maxwell — Pascal) | Discrete graphics<br>(NVIDIA pre-Maxwell) | SLI Setup     |
 |:---------------|:----------------------|:---------------------------|:-----------------------------------------------|:-----------------------------------------------|:------------------------------------------|:--------------|
-| P1XX           | 582.28                | 582.28                     | 581.94                                         | 582.28                                         | 472.12                                    | 446.14        |
-| CMP and others | 596.36                | 596.36                     | 596.36                                         | 581.94                                         | 472.12                                    | Not supported |
+| P1XX           | 582.53                | 582.53                     | 581.94                                         | 582.53                                         | 472.12                                    | 446.14        |
+| CMP and others | 610.47                | 610.47                     | 610.47                                         | 581.94                                         | 472.12                                    | Not supported |
 
 Turing = Series 20 (RTX 2xxx) and Series 16 (GTX 16xx).
 
@@ -120,8 +120,8 @@ Note: You do not need to double-click the shortcut again; this is a one-time set
 
 |              | Встроенное видеоядро CPU | Видеокарта (AMD) | Видеокарта (NVIDIA Turing или новее) | Видеокарта (NVIDIA Maxwell — Pascal) | Видеокарта (NVIDIA до Maxwell) | SLI               |
 |:-------------|:-------------------------|:-----------------|:-------------------------------------|:-------------------------------------|:-------------------------------|:------------------|
-| P1XX         | 582.28                   | 582.28           | 581.94                               | 582.28                               | 472.12                         | 446.14            |
-| CMP и прочие | 596.36                   | 596.36           | 596.36                               | 581.94                               | 472.12                         | Не поддерживается |
+| P1XX         | 582.53                   | 582.53           | 581.94                               | 582.53                               | 472.12                         | 446.14            |
+| CMP и прочие | 610.47                   | 610.47           | 610.47                               | 581.94                               | 472.12                         | Не поддерживается |
 
 Turing = Series 20 (RTX 2xxx) и Series 16 (GTX 16xx).
 
