@@ -41,10 +41,8 @@ Script-Version = 0.0.4 ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_commonBase_addreg*" == "HKR,,EnableMsHybrid,%REG_DWORD%,1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC64_.dll = 1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC_.dll = 1" ==
-= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_system32_copyfiles__01" == "NvFBC64_.dll,,,0x00004000" ==
-= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_system32_copyfiles__02" == "NvFBC64_.dll,,,0x00004000" ==
-= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_syswow64_copyfiles__01" == "NvFBC_.dll,,,0x00004000" ==
-= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_syswow64_copyfiles__02" == "NvFBC_.dll,,,0x00004000" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_system32_copyfiles*" == "NvFBC64_.dll,,,0x00004000" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_syswow64_copyfiles*" == "NvFBC_.dll,,,0x00004000" ==
 
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B07" == "NVIDIA GeForce GTX 1080 Ti" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B87" == "NVIDIA GeForce GTX 1070" == "" ==
