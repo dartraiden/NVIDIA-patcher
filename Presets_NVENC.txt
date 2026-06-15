@@ -37,12 +37,27 @@ Script-Version = 0.0.4 ==
 
 = 1 = Fix-Remove-Strings = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == "DEV(_|\.)(1B07|1B87|1BC7|1C07|1C09|1E09|1F0B|2082|20C2|2189|220D|248A)" ==
 
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC64_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [1] == "nv_system32_copyfiles*" == "NvFBC64_.dll,,,0x00004000" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nv_dispi*.inf == utf-8 == [1] == "nv_syswow64_copyfiles*" == "NvFBC_.dll,,,0x00004000" ==
+
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_commonBase_addreg*" == "HKR,,AdapterType,%REG_DWORD%,1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_commonBase_addreg*" == "HKR,,EnableMsHybrid,%REG_DWORD%,1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC64_.dll = 1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC_.dll = 1" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_system32_copyfiles*" == "NvFBC64_.dll,,,0x00004000" ==
 = 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [1] == "nv_syswow64_copyfiles*" == "NvFBC_.dll,,,0x00004000" ==
+
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvdmi*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC64_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvdmi*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvdmi*.inf == utf-8 == [1] == "nv_system32_copyfiles*" == "NvFBC64_.dll,,,0x00004000" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvdmi*.inf == utf-8 == [1] == "nv_syswow64_copyfiles*" == "NvFBC_.dll,,,0x00004000" ==
+
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvlti*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC64_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvlti*.inf == utf-8 == [1] == "SourceDisksFiles" == "NvFBC_.dll = 1" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvlti*.inf == utf-8 == [1] == "nv_system32_copyfiles*" == "NvFBC64_.dll,,,0x00004000" ==
+= 1 = Fix-INF-add-String = \Edit\%\Display.Driver\nvlti*.inf == utf-8 == [1] == "nv_syswow64_copyfiles*" == "NvFBC_.dll,,,0x00004000" ==
 
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B07" == "NVIDIA GeForce GTX 1080 Ti" == "" ==
 = 1 = Fix-INF-add-DevID = \Edit\%\Display.Driver\nvaci*.inf == utf-8 == [0] == "DEV.1BE1.1243.1025" == "PCI\VEN_10DE&DEV_1B87" == "NVIDIA GeForce GTX 1070" == "" ==
