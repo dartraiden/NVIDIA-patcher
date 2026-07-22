@@ -77,7 +77,7 @@ Solution: Add the `C:\Windows\System32\DriverStore` directory to the exceptions 
 Solution: Turn off the [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
 
 * Problem: DirectX 12 support is missing on the Haswell platform.
-Solution: Do not use the integrated graphics, since [Intel has disabled DX12 support](https://www.techpowerup.com/288676/intel-disables-directx-12-api-loading-on-haswell-processors).
+Solution: Do not use the integrated graphics, since [Intel has disabled DX12 support](http://web.archive.org/web/20260226172824/https://www.techpowerup.com/288676/intel-disables-directx-12-api-loading-on-haswell-processors).
 
 ## Unlocking full x16 PCI-E lines on the CMP-cards
 You need to [solder the missing elements near the PCI-E slot](https://www.youtube.com/watch?v=AlLid4uGxpw).
