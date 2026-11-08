@@ -73,6 +73,16 @@ Thus, for example, GTX 1070 and GTX 1080 can work together, but GTX 960 and GTX 
 * Problem: Antivirus software removes driver.  
 Solution: Add the `C:\Windows\System32\DriverStore` directory to the exceptions of Windows Defender (or other antivirus you use). Reinstall the driver after that.
 
+* Problem: You got "This driver has been blocked. nvlddmkm.sys does not pass the Windows driver policy." message  
+Solution: Open a PowerShell console as administrator, run the following commands one by one:
+```
+mountvol S: /s
+Remove-Item "S:\EFI\Microsoft\Boot\CiPolicies\Active\{8F9CB695-5D48-48D6-A329-7202B44607E3}.cip" -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:windir\System32\CodeIntegrity\CiPolicies\Active\{8F9CB695-5D48-48D6-A329-7202B44607E3}.cip" -Force -ErrorAction SilentlyContinue
+mountvol S: /d
+```
+Then reboot your computer.
+
 * Problem: A BSOD after installing the driver.  
 Solution: Turn off the [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
 
@@ -174,6 +184,16 @@ NVIDIA_DEV.`118`5.106F.10DE = "NVIDIA GeForce GTX 760"
 ## Решение проблем
 * Проблема: Антивирусное ПО удаляет драйвер.  
 Решение: Добавить каталог `C:\Windows\System32\DriverStore` в список исключений антивируса. После этого переустановить драйвер.
+
+* Проблема: Появляется сообщение «Этот драйвер заблокирован. nvlddmkm.sys не соответствует политике.»  
+Решение: Откройте консоль PowerShell с правами администратора, выполните поочерёдно команды:
+```
+mountvol S: /s
+Remove-Item "S:\EFI\Microsoft\Boot\CiPolicies\Active\{8F9CB695-5D48-48D6-A329-7202B44607E3}.cip" -Force -ErrorAction SilentlyContinue
+Remove-Item "$env:windir\System32\CodeIntegrity\CiPolicies\Active\{8F9CB695-5D48-48D6-A329-7202B44607E3}.cip" -Force -ErrorAction SilentlyContinue
+mountvol S: /d
+```
+Перезагрузите компьютер.
 
 * Проблема: BSOD после установки драйвера.  
 Решение: Выключить [Hardware Accelerated GPU Scheduling](https://www.howtogeek.com/756935/how-to-enable-hardware-accelerated-gpu-scheduling-in-windows-11/#enable-hardware-accelerated-gpu-scheduling-in-windows-11).
