@@ -10,7 +10,7 @@ Compare the patched and unpatched files byte by byte. You will see that the file
 If you don't trust me and want to patch the driver by yourself, see [how to use patcher](/docs/README-PATCHER-LINUX.md).
 
 ## Usage
-1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
+1. Download patched files from [releases](https://github.com/dartraiden/NVIDIA-patcher/releases) (you can find an archive of previous versions [here](https://drive.google.com/drive/folders/1NBzr39UIoxktJ88bIns7uu-S4w5wXK_T)).
 
 First, select the row with your "mining" card, then the column depending on what device you are using to display the image on the monitor.
 
@@ -79,7 +79,7 @@ You need to [solder the missing elements near the PCI-E slot](https://www.youtub
 Если вы хотите пропатчить драйвер самостоятельно, читайте [руководство по использованию патчера](/docs/README-PATCHER-LINUX.md).
 
 ## Установка
-1. Скачайте пропатченные [файлы](https://github.com/dartraiden/NVIDIA-patcher/releases) (предыдущие версии, при необходимости, можно отыскать [здесь](https://cloud.mail.ru/public/ihU3/CpmTAFWQo)).
+1. Скачайте пропатченные [файлы](https://github.com/dartraiden/NVIDIA-patcher/releases) (предыдущие версии, при необходимости, можно отыскать [здесь](https://drive.google.com/drive/folders/1NBzr39UIoxktJ88bIns7uu-S4w5wXK_T)).
 
 Чтобы определить требуемую версию драйвера, выберите вашу «майнинговую» карту в горизонтальной строке, затем выберите столбец в зависимости от того, через какое устройство выводите изображение на монитор.
 
